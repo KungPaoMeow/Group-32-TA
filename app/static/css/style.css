@@ -1,0 +1,14 @@
+/* Base body style - an intense, bile-like background */
+body {
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #ff007f, #00cc00, #ffcc00, #b5651d);
+    background-size: 100% 1000%;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+/* Headings and paragraphs with extra brightness and saturation */
+h1 {
+    text-shadow: 3px 3px 6px #000000;
+    color: #ff00ff; /* Neon pink text */
+}
