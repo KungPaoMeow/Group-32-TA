@@ -1,14 +1,20 @@
 /* Base body style - an intense, bile-like background */
 body {
-    margin: 0;
-    padding: 0;
-    background: linear-gradient(135deg, #ff007f, #00cc00, #ffcc00, #b5651d);
-    background-size: 100% 1000%;
+    height: 100vh;
+    padding-top: 5vh;
+    background: linear-gradient(
+        to bottom,
+        #0505051F 0%,   /* Black (#050505) with 12% opacity */
+        #666666 100%    /* Gray (#666666) with full opacity */
+    );
+
+    text-align: center;
     font-family: 'Courier New', Courier, monospace;
+    font-size: 2rem;
 }
 
 /* Headings and paragraphs with extra brightness and saturation */
 h1 {
-    text-shadow: 3px 3px 6px #000000;
-    color: #ff00ff; /* Neon pink text */
+    color: #3371EB;
+    text-shadow: 3px 3px 6px #3371EB;
 }
