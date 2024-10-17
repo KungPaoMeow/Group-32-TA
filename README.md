@@ -12,7 +12,7 @@
 
     Bash:
     ```bash
-    source venv/bin/activate 
+    source venv/Scripts/activate 
     ```
 
     Windows CMD:
@@ -40,10 +40,15 @@
 
     Bash:
     ```bash
-    FLASK_APP=app.py && flask run --port=5001
+    FLASK_APP=app.py flask run --port=5001
     ```
 
     Windows CMD:
     ```bash
     set FLASK_APP=app.py && flask run --port=5001
+    ```
+
+    To run in development env add: 
+    ```bash 
+    FLASK_ENV=development 
     ```
