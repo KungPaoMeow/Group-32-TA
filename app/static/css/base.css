@@ -1,18 +1,16 @@
 body {
     margin: 0;
     display: flex;
-    /* width: 100%; */
-}
-
-main {
-    width: 100%;
-    height: 100vh;
     background: linear-gradient(
         to bottom,
         #0505051F 0%,   /* Black (#050505) with 12% opacity */
         #666666 100%    /* Gray (#666666) with full opacity */
     );
+}
 
+main {
+    width: 100%;
+    height: 100vh;
     text-align: center;
     font-family: 'Courier New', Courier, monospace;
     font-size: 2rem;
@@ -21,8 +19,15 @@ main {
 nav {
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    justify-content: space-between;
+    width: 20vw;
     height: 100vh;
+    background-color: rgba(0, 0, 0, 0.15);
+}
+
+nav > div {
+    display: flex;
+    flex-direction: column;
 }
 
 h1 {
