@@ -1,6 +1,12 @@
 body {
+    margin: 0;
+    display: flex;
+    /* width: 100%; */
+}
+
+main {
+    width: 100%;
     height: 100vh;
-    padding-top: 5vh;
     background: linear-gradient(
         to bottom,
         #0505051F 0%,   /* Black (#050505) with 12% opacity */
@@ -10,6 +16,13 @@ body {
     text-align: center;
     font-family: 'Courier New', Courier, monospace;
     font-size: 2rem;
+}
+
+nav {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    height: 100vh;
 }
 
 h1 {
