@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+
+{% block title %} Test Page Title {% endblock %}
+
+{% block content %}
+<style>
+    .content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin: 40px;
+        box-sizing: border-box;
+        width: calc(100% - 80px); /* Adjust for padding */
+    }
+
+    .add-button {
+        padding: 10px 20px;
+        font-size: 16px;
+        background-color: #1E88E5; /* Green background */
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+    .add-button:hover {
+        background-color: #1761a2; /* Darker green on hover */
+    }
+
+    .header-container {
+        display: flex;
+        justify-content: space-between; /* Space between title and button */
+        flex-direction: row;
+        align-items: center;            /* Vertically center title and button */
+        width: 100%;                    /* Full width container */
+        padding: 0 40px;                /* Padding on both sides */
+        box-sizing: border-box;
+        margin-bottom: 20px;            /* Space between the header and the table */
+    }
+
+    .title-container {
+        flex-grow: 1;
+        text-align: center;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    h1 {
+        margin-bottom: 20px;
+        font-size: 24px;
+    }
+    th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+    th, td {
+        padding: 15px;
+        text-align: left;
+    }
+    td {
+        position: relative;
+    }
+    td button {
+        border: none;
+        margin-bottom: 5px;
+        padding: 5px 10px;
+        background-color: white;
+        cursor: pointer;
+        position: absolute;
+    }
+    td.no-border {
+        border: none;
+        width: 50px
+    }
+
+    th.no-border {
+        border: none;
+    }
+</style>
+<div class="content">
+    <div class="header-container">
+        <div class="title-container">
+            <h1>Total Stock</h1>
+        </div>
+        <button class="add-button">New Drug</button>
+    </div>
+    <table>
+        <tr>
+            <th>Product Name</th>
+            <th>Company</th>
+            <th>Type</th>
+            <th>Stock</th>
+        </tr>
+        <tr>
+            <td>Drug1</td>
+            <td>C1</td>
+            <td>Prescription</td>
+            <td>20</td>
+            <td class="no-border"><button>Edit</button></td>
+            <td class="no-border"><button>Delete</button></td>
+        </tr>
+        <tr>
+            <td>Drug2</td>
+            <td>C2</td>
+            <td>Over The Counter</td>
+            <td>30</td>
+            <td class="no-border"><button>Edit</button></td>
+            <td class="no-border"><button>Delete</button></td>
+        </tr>
+    </table>
+</div>
+{% endblock %}
+
+{% block styles %}
+    <style>
+        p {
+            color: white;
+        }
+    </style>
+{% endblock %}
