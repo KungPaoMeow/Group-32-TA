@@ -55,8 +55,6 @@
     th, td {
         border: 1px solid black;
         border-collapse: collapse;
-    }
-    th, td {
         padding: 15px;
         text-align: left;
     }
@@ -94,22 +92,16 @@
             <th>Type</th>
             <th>Stock</th>
         </tr>
-        <tr>
-            <td>Drug1</td>
-            <td>C1</td>
-            <td>Prescription</td>
-            <td>20</td>
-            <td class="no-border"><button>Edit</button></td>
-            <td class="no-border"><button>Delete</button></td>
-        </tr>
-        <tr>
-            <td>Drug2</td>
-            <td>C2</td>
-            <td>Over The Counter</td>
-            <td>30</td>
-            <td class="no-border"><button>Edit</button></td>
-            <td class="no-border"><button>Delete</button></td>
-        </tr>
+        {% for drug in drugs %}
+            <tr>
+                <td>{{ drug.name }}</td>
+                <td>{{ drug.company }}</td>
+                <td>{{ drug.type }}</td>
+                <td>{{ drug.stock }}</td>
+                <td class="no-border"><button>Edit</button></td>
+                <td class="no-border"><button>Delete</button></td>
+            </tr>
+        {% endfor %}
     </table>
 </div>
 {% endblock %}
