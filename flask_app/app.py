@@ -1,3 +1,4 @@
+from datetime import date, datetime
 from flask import Flask, render_template, request, redirect
 
 app = Flask(__name__)
@@ -124,6 +125,13 @@ def new_order():
             "pickup_or_delivery": request.form['pickup_or_delivery'],
             "status": request.form['status']
         }
+
+        # convert date from string to the correct data type
+        try:
+             new_order_data["date_of_purchase"] = datetime.strptime(new_order_data["date_of_purchase"], "%Y-%m-%d").date()
+        except ValueError:
+            return "Invalid date value", 400
+
         orders.append(new_order_data)
         return redirect('/order-tracking')
     return render_template('new-order.html')
@@ -136,6 +144,12 @@ def edit_order(id):
         order['date_of_purchase'] = request.form['date_of_purchase']
         order['pickup_or_delivery'] = request.form['pickup_or_delivery']
         order['status'] = request.form['status']
+
+        # convert date from string to the correct data type
+        try:
+             order["date_of_purchase"] = datetime.strptime(order["date_of_purchase"], "%Y-%m-%d").date()
+        except ValueError:
+            return "Invalid date value", 400
         return redirect('/order-tracking')
     return render_template('edit-order.html', order=order)
 
