@@ -7,7 +7,7 @@
     <header>
         <h1>Drug Information</h1>
         <div id="management-row">
-            <input type="text" name="" id="search-box" placeholder="Search here">
+            <input type="text" name="" id="search-box" placeholder="Search drug by name here">
             <a href="/new-drug?from=info"><button>+ New Drug</button></a>
         </div>
 
@@ -15,7 +15,7 @@
 
     <section id="info-section">
         {% for drug in drugs %}
-            <details>
+            <details class="drug" data-name="{{ drug.name }}">
                 <summary>
                     {{ drug.name }}
                     <div>
@@ -26,7 +26,24 @@
                 <p>{{ drug.description }}</p>
             </details>
         {% endfor %}
-    </section>  
+    </section> 
+    
+    <script>
+        document.getElementById('search-box').addEventListener('input', function() {
+            const filter = this.value.toLowerCase();
+            const drugItems = document.querySelectorAll('.drug');
+
+            drugItems.forEach((item) => {
+                const drugName = item.getAttribute('data-name').toLowerCase();
+                if (drugName.includes(filter)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+
+    </script>
 {% endblock %}
 
 {% block styles %}
