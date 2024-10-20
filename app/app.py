@@ -52,6 +52,19 @@ def new_drug():
     # show form to add a drug
     return render_template('new-drug.html')
 
+@app.route('/delete-drug/<int:id>', methods=['GET','POST'])
+def delete_drug(id):
+    drug = drugs[id]
+    if request.method == 'POST':
+        if request.form['delete'] == 'Yes':
+            # remove drug from list if user confirms that they want to delete it
+            drugs.pop(id)
+        # send the user back to inventory monitoring page
+        return redirect('/inv-monitoring')
+    
+    # show confirmation page
+    return render_template('delete-drug.html', drug=drug)
+
 if __name__ == '__main__':
     # app.run(debug=True)
     app.run(port=5001, debug=True)

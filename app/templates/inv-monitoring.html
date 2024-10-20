@@ -104,7 +104,7 @@
                 <td>{{ drug.type }}</td>
                 <td>{{ drug.stock }}</td>
                 <td class="no-border"><a href="/drug-edit/{{ drugs.index(drug) }}"><button>Edit</button></a></td>
-                <td class="no-border"><button>Delete</button></td>
+                <td class="no-border"><a href="/delete-drug/{{ drugs.index(drug) }}"><button>Delete</button></a></td>
             </tr>
         {% endfor %}
     </table>
