@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block title %} Drug Information {% endblock %}
+
+{% block content %}
+    <header>
+        <h1>Drug Information</h1>
+        <div id="management-row">
+            <input type="text" name="" id="search-box" placeholder="Search here">
+            <button>+ New Drug</button>
+        </div>
+
+    </header>
+
+    <section id="collapsible-section">
+        <details>
+            <summary>
+                Drug1
+                <div>
+                    <button>Edit</button>
+                    <span class="triangle"></span>
+                </div>
+            </summary>
+            <p>Put the information of drug here</p>
+            
+        </details>
+        <details>
+            <summary>
+                Drug2
+                <div>
+                    <button>Edit</button>
+                    <span class="triangle"></span>
+                </div> 
+            </summary>
+        </details>
+    </section>  
+{% endblock %}
+
+{% block styles %}
+    <style>
+        #collapsible-section {
+            margin-top: 5vh;
+            padding: 0 5vw;
+        }
+
+        summary {
+            display: flex;
+            justify-content: space-between;
+            list-style: none;
+            cursor: pointer;
+        }
+
+        /* Custom triangle icon - span is 0 width and height by default */
+        .triangle {
+            margin-top: 10px;
+            border-left: 9px solid transparent;
+            border-right: 9px solid transparent;
+            border-top: 9px solid #000;
+        }
+
+
+        details {
+            margin-bottom: 2vh;
+            padding: 1vh 1vw;
+            border: 1px solid #ccc;
+            border-radius: 15px;
+            background-color: #D9D9D9;
+        }
+
+        details[open] {
+            background-color: #F9F9F9;
+        }
+
+        /* Rotate when open */
+        details[open] .triangle {
+            transform: translateY(-75%) rotate(180deg); 
+        }
+
+        button {
+            /* float: right; */
+            /* background-color: transparent; */
+            /* border: none; */
+            cursor: pointer;
+        }
+    </style>
+{% endblock %}
