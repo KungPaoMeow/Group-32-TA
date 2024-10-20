@@ -33,6 +33,9 @@ def drug_edit(id):
         drug['type'] = request.form['type']
         drug['description'] = request.form['description']
         drug['stock'] = request.form['stock']
+
+        if request.args.get('from') == 'info':
+            return redirect('/drug-info')
         # send the user back to inventory monitoring page
         return redirect('/inv-monitoring')
     # display the drug info
@@ -50,8 +53,12 @@ def new_drug():
         drug['description'] = request.form['description']
         drug['stock'] = request.form['stock']
         drugs.append(drug)
+
+        if request.args.get('from') == 'info':
+            return redirect('/drug-info')
         # send the user back to inventory monitoring page
         return redirect('/inv-monitoring')
+    
     # show form to add a drug
     return render_template('new-drug.html')
 
@@ -68,9 +75,9 @@ def delete_drug(id):
     # show confirmation page
     return render_template('delete-drug.html', drug=drug)
 
-@app.route('/drug-info.html', methods=['GET'])
+@app.route('/drug-info', methods=['GET'])
 def drug_info():
-    return render_template('drug-info.html')
+    return render_template('drug-info.html', drugs=drugs)
 
 
 if __name__ == '__main__':

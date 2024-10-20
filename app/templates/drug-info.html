@@ -2,43 +2,36 @@
 
 {% block title %} Drug Information {% endblock %}
 
+<!-- Inside of <main> -->
 {% block content %}
     <header>
         <h1>Drug Information</h1>
         <div id="management-row">
             <input type="text" name="" id="search-box" placeholder="Search here">
-            <button>+ New Drug</button>
+            <a href="/new-drug?from=info"><button>+ New Drug</button></a>
         </div>
 
     </header>
 
-    <section id="collapsible-section">
-        <details>
-            <summary>
-                Drug1
-                <div>
-                    <button>Edit</button>
-                    <span class="triangle"></span>
-                </div>
-            </summary>
-            <p>Put the information of drug here</p>
-            
-        </details>
-        <details>
-            <summary>
-                Drug2
-                <div>
-                    <button>Edit</button>
-                    <span class="triangle"></span>
-                </div> 
-            </summary>
-        </details>
+    <section id="info-section">
+        {% for drug in drugs %}
+            <details>
+                <summary>
+                    {{ drug.name }}
+                    <div>
+                        <a href="/drug-edit/{{ drugs.index(drug) }}?from=info"><button>Edit</button></a>
+                        <span class="triangle"></span>
+                    </div>
+                </summary>
+                <p>{{ drug.description }}</p>
+            </details>
+        {% endfor %}
     </section>  
 {% endblock %}
 
 {% block styles %}
     <style>
-        #collapsible-section {
+        #info-section {
             margin-top: 5vh;
             padding: 0 5vw;
         }
@@ -52,6 +45,7 @@
 
         /* Custom triangle icon - span is 0 width and height by default */
         .triangle {
+            display: inline-block;
             margin-top: 10px;
             border-left: 9px solid transparent;
             border-right: 9px solid transparent;
@@ -73,14 +67,19 @@
 
         /* Rotate when open */
         details[open] .triangle {
-            transform: translateY(-75%) rotate(180deg); 
+            transform: rotate(180deg); 
         }
 
-        button {
-            /* float: right; */
-            /* background-color: transparent; */
-            /* border: none; */
+        main button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #1E88E5;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
             cursor: pointer;
         }
+        
     </style>
 {% endblock %}
