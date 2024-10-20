@@ -55,6 +55,12 @@ def drug_edit(id):
         drug['description'] = request.form['description']
         drug['stock'] = request.form['stock']
 
+        # flask automatically converts form data to strings apparently, so convert it back to int
+        try:
+             drug['stock'] = int( drug['stock'])
+        except ValueError:
+            return "Invalid stock value", 400
+
         if request.args.get('from') == 'info':
             return redirect('/drug-info')
         # send the user back to inventory monitoring page
@@ -73,6 +79,12 @@ def new_drug():
         drug['type'] = request.form['type']
         drug['description'] = request.form['description']
         drug['stock'] = request.form['stock']
+
+        # flask automatically converts form data to strings apparently, so convert it back to int
+        try:
+             drug['stock'] = int( drug['stock'])
+        except ValueError:
+            return "Invalid stock value", 400
         drugs.append(drug)
 
         if request.args.get('from') == 'info':
