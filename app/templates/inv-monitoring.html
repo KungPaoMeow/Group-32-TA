@@ -11,13 +11,13 @@
         align-items: center;
         margin: 40px;
         box-sizing: border-box;
-        width: calc(100% - 80px); /* Adjust for padding */
+        width: calc(100% - 80px);
     }
 
     .add-button {
         padding: 10px 20px;
         font-size: 16px;
-        background-color: #1E88E5; /* Green background */
+        background-color: #1E88E5;
         color: white;
         border: none;
         cursor: pointer;
@@ -25,18 +25,18 @@
     }
 
     .add-button:hover {
-        background-color: #1761a2; /* Darker green on hover */
+        background-color: #1761a2;
     }
 
     .header-container {
         display: flex;
-        justify-content: space-between; /* Space between title and button */
+        justify-content: space-between;
         flex-direction: row;
-        align-items: center;            /* Vertically center title and button */
-        width: 100%;                    /* Full width container */
-        padding: 0 40px;                /* Padding on both sides */
+        align-items: center;
+        width: 100%;
+        padding: 0 40px;
         box-sizing: border-box;
-        margin-bottom: 20px;            /* Space between the header and the table */
+        margin-bottom: 20px;
     }
 
     .title-container {
@@ -50,7 +50,6 @@
     }
     h1 {
         margin-bottom: 20px;
-        font-size: 24px;
     }
     th, td {
         border: 1px solid black;
@@ -62,13 +61,19 @@
         position: relative;
     }
     td button {
+        padding: 10px 20px;
+        font-size: 16px;
+        background-color: #1E88E5;
+        color: white;
         border: none;
-        margin-bottom: 5px;
-        padding: 5px 10px;
-        background-color: white;
         cursor: pointer;
-        position: absolute;
+        border-radius: 5px;
     }
+
+    td button:hover {
+        background-color: #1761a2;
+    }
+
     td.no-border {
         border: none;
         width: 50px
@@ -98,7 +103,7 @@
                 <td>{{ drug.company }}</td>
                 <td>{{ drug.type }}</td>
                 <td>{{ drug.stock }}</td>
-                <td class="no-border"><button>Edit</button></td>
+                <td class="no-border"><a href="/drug-edit/{{ drugs.index(drug) }}"><button>Edit</button></a></td>
                 <td class="no-border"><button>Delete</button></td>
             </tr>
         {% endfor %}
