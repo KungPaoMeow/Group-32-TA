@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block title %}Add New Order{% endblock %}
+
+{% block content %}
+<style>
+    .content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin: 40px;
+        box-sizing: border-box;
+        width: calc(100% - 80px);
+    }
+
+    .form-container {
+        display: flex;
+        flex-direction: column;
+        width: 50%;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-container label {
+        margin-bottom: 10px;
+        font-weight: bold;
+    }
+
+    .form-container input, .form-container select {
+        margin-bottom: 20px;
+        padding: 10px;
+        font-size: 16px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+    }
+
+    .form-container button {
+        padding: 10px 20px;
+        font-size: 16px;
+        background-color: #1E88E5;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+    .form-container button:hover {
+        background-color: #1761a2;
+    }
+
+</style>
+
+<div class="content">
+    <h1>Add New Order</h1>
+    <form class="form-container" action="/new-order" method="POST">
+        <label for="name">Customer Name</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="date_of_purchase">Date of Purchase</label>
+        <input type="date" id="date_of_purchase" name="date_of_purchase" required>
+
+        <label for="pickup_or_delivery">Pick up or Delivery</label>
+        <select id="pickup_or_delivery" name="pickup_or_delivery" required>
+            <option value="Pick up">Pick up</option>
+            <option value="Delivery">Delivery</option>
+        </select>
+
+        <label for="status">Order Status</label>
+        <select id="status" name="status" required>
+            <option value="Picked Up">Picked Up</option>
+            <option value="Delivered">Delivered</option>
+            <option value="Awaiting Pickup">Awaiting Pickup</option>
+            <option value="In Transit">In Transit</option>
+        </select>
+
+        <button type="submit">Add Order</button>
+    </form>
+</div>
+{% endblock %}

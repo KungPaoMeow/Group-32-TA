@@ -6,7 +6,7 @@ drugs = [
         {"name": "Drug1", "company": "C1", "type": "Prescription", "stock": 20},
         {"name": "Drug2", "company": "C2", "type": "Over the Counter", "stock": 30},
     ]
-
+orders = []
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
@@ -64,6 +64,72 @@ def delete_drug(id):
     
     # show confirmation page
     return render_template('delete-drug.html', drug=drug)
+
+@app.route('/order-tracking')
+def order_tracking():
+    return render_template('order-tracking.html', orders=orders)
+
+@app.route('/new-order', methods=['GET', 'POST'])
+
+def new_order():
+    if request.method == 'POST':
+        new_order_data = {
+            "name": request.form['name'],
+            "date_of_purchase": request.form['date_of_purchase'],
+            "pickup_or_delivery": request.form['pickup_or_delivery'],
+            "status": request.form['status']
+        }
+        orders.append(new_order_data)
+        return redirect('/order-tracking')
+    return render_template('new-order.html')
+
+@app.route('/edit-order/<int:id>', methods=['GET', 'POST'])
+def edit_order(id):
+    order = orders[id]
+    if request.method == 'POST':
+
+        order['name'] = request.form['name']
+        order['date_of_purchase'] = request.form['date_of_purchase']
+        order['pickup_or_delivery'] = request.form['pickup_or_delivery']
+        order['status'] = request.form['status']
+        return redirect('/order-tracking')
+    return render_template('edit-order.html', order=order)
+
+
+
+@app.route('/delete-order/<int:id>', methods=['GET', 'POST'])
+def delete_order(id):
+    order = orders[id]
+    if request.method == 'POST':
+        if request.form['delete'] == 'Yes':
+
+            orders.pop(id)
+        return redirect('/order-tracking')
+
+    return render_template('delete-order.html', order=order)
+
+@app.route('/browse-drug')
+def browse_drug():
+    return render_template('browse-drug.html', drugs=drugs)
+
+@app.route('/dashboard')
+def dashboard():
+    total_orders = 888
+    drug_inventory = 123974
+    earnings = 123114
+
+    order_increase = 201
+    inventory_increase = 2100
+    earnings_increase = 11981
+
+    return render_template('dashboard.html', 
+                           total_orders=total_orders,
+                           drug_inventory=drug_inventory,
+                           earnings=earnings,
+                           order_increase=order_increase,
+                           inventory_increase=inventory_increase,
+                           earnings_increase=earnings_increase,
+                           orders=orders)
 
 if __name__ == '__main__':
     # app.run(debug=True)

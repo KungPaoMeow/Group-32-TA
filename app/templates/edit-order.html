@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit Order{% endblock %}
+
+{% block content %}
+<style>
+    .content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin: 40px;
+        box-sizing: border-box;
+        width: calc(100% - 80px);
+    }
+</style>
+<div class="content">
+    <h1>Edit Order</h1>
+    <form method="POST">
+        <label for="name">Customer Name:</label>
+        <input type="text" id="name" name="name" value="{{ order.name }}" required><br>
+
+        <label for="date_of_purchase">Date of Purchase:</label>
+        <input type="date" id="date_of_purchase" name="date_of_purchase" value="{{ order.date_of_purchase }}" required><br>
+
+        <label for="pickup_or_delivery">Pick up or Delivery:</label>
+        <select id="pickup_or_delivery" name="pickup_or_delivery" required>
+            <option value="Pick up" {% if order.pickup_or_delivery == 'Pick up' %}selected{% endif %}>Pick up</option>
+            <option value="Delivery" {% if order.pickup_or_delivery == 'Delivery' %}selected{% endif %}>Delivery</option>
+        </select><br>
+
+        <label for="status">Status:</label>
+        <select id="status" name="status" required>
+            <option value="Picked Up" {% if order.status == 'Picked Up' %}selected{% endif %}>Picked Up</option>
+            <option value="Delivered" {% if order.status == 'Delivered' %}selected{% endif %}>Delivered</option>
+            <option value="Awaiting Pickup" {% if order.status == 'Awaiting Pickup' %}selected{% endif %}>Awaiting Pickup</option>
+            <option value="In Transit" {% if order.status == 'In Transit' %}selected{% endif %}>In Transit</option>
+        </select><br>
+
+        <input type="submit" value="Save Changes">
+    </form>
+</div>
+{% endblock %}
