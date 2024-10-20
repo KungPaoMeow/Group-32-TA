@@ -1,4 +1,5 @@
 import unittest
+from unittest.mock import patch
 from app import app, drugs
 
 # class TestTesting(unittest.TestCase):
@@ -23,9 +24,19 @@ class TestFlaskApp(unittest.TestCase):
     def setUp(self):
         self.app = app.test_client()
         self.app.testing = True
-        print(self.app)
-        print(app)
+        # create new test data to avoid errors with removing from an empty list
+        drugs.clear()
+        drugs.extend([
+            {"name": "drug1", "company": "company1", "type": "Prescription", "stock": 10},
+            {"name": "drug2", "company": "company2", "type": "Over-the-Counter", "stock": 5}
+        ])
     
+    def tearDown(self):
+        # reset the list after each test
+        drugs.clear()
+    
+    
+
     def test_index(self):
         response = self.app.get('/')
 

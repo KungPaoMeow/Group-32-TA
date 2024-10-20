@@ -2,10 +2,7 @@ from flask import Flask, render_template, request, redirect
 
 app = Flask(__name__)
 
-drugs = [
-        {"name": "Drug1", "company": "C1", "type": "Prescription", "description": "<insert super long blurb>", "stock": 20},
-        {"name": "Drug2", "company": "C2", "type": "Over the Counter", "description": "<insert super long blurb>", "stock": 30},
-    ]
+drugs = []
 orders = []
 
 @app.route('/', methods=['GET', 'POST'])
