@@ -4,84 +4,7 @@
 
 {% block content %}
 <style>
-    .content {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        margin: 40px;
-        box-sizing: border-box;
-        width: calc(100% - 80px);
-    }
-
-    .add-button {
-        padding: 10px 20px;
-        font-size: 16px;
-        background-color: #1E88E5;
-        color: white;
-        border: none;
-        cursor: pointer;
-        border-radius: 5px;
-    }
-
-    .add-button:hover {
-        background-color: #1761a2;
-    }
-
-    .header-container {
-        display: flex;
-        justify-content: space-between;
-        flex-direction: row;
-        align-items: center;
-        width: 100%;
-        padding: 0 40px;
-        box-sizing: border-box;
-        margin-bottom: 20px;
-    }
-
-    .title-container {
-        flex-grow: 1;
-        text-align: center;
-    }
-
-    table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-    h1 {
-        margin-bottom: 20px;
-    }
-    th, td {
-        border: 1px solid black;
-        border-collapse: collapse;
-        padding: 15px;
-        text-align: left;
-    }
-    td {
-        position: relative;
-    }
-    td button {
-        padding: 10px 20px;
-        font-size: 16px;
-        background-color: #1E88E5;
-        color: white;
-        border: none;
-        cursor: pointer;
-        border-radius: 5px;
-    }
-
-    td button:hover {
-        background-color: #1761a2;
-    }
-
-    td.no-border {
-        border: none;
-        width: 50px
-    }
-
-    th.no-border {
-        border: none;
-    }
+    
 </style>
 <div class="content">
     <div class="header-container">
@@ -103,6 +26,7 @@
                 <td>{{ drug.company }}</td>
                 <td>{{ drug.type }}</td>
                 <td>{{ drug.stock }}</td>
+                <script>console.log("{{ drug.description }}")</script>
                 <td class="no-border"><a href="/drug-edit/{{ drugs.index(drug) }}"><button>Edit</button></a></td>
                 <td class="no-border"><a href="/delete-drug/{{ drugs.index(drug) }}"><button>Delete</button></a></td>
             </tr>
@@ -113,8 +37,83 @@
 
 {% block styles %}
     <style>
-        p {
+        .content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 40px;
+            box-sizing: border-box;
+            width: calc(100% - 80px);
+        }
+
+        .add-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #1E88E5;
             color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .add-button:hover {
+            background-color: #1761a2;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            flex-direction: row;
+            align-items: center;
+            width: 100%;
+            padding: 0 40px;
+            box-sizing: border-box;
+            margin-bottom: 20px;
+        }
+
+        .title-container {
+            flex-grow: 1;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            padding: 15px;
+            text-align: left;
+        }
+        td {
+            position: relative;
+        }
+        td button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #1E88E5;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        td button:hover {
+            background-color: #1761a2;
+        }
+
+        td.no-border {
+            border: none;
+            width: 50px
+        }
+
+        th.no-border {
+            border: none;
         }
     </style>
 {% endblock %}

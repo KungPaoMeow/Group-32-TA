@@ -3,8 +3,8 @@ from flask import Flask, render_template, request, redirect
 app = Flask(__name__)
 
 drugs = [
-        {"name": "Drug1", "company": "C1", "type": "Prescription", "stock": 20},
-        {"name": "Drug2", "company": "C2", "type": "Over the Counter", "stock": 30},
+        {"name": "Drug1", "company": "C1", "type": "Prescription", "description": "<insert super long blurb>", "stock": 20},
+        {"name": "Drug2", "company": "C2", "type": "Over the Counter", "description": "<insert super long blurb>", "stock": 30},
     ]
 
 @app.route('/', methods=['GET', 'POST'])
@@ -13,6 +13,7 @@ def index():
         user_input = request.form['user_input']
         return render_template('index.html', user_input=user_input)
     return render_template('testpage.html', user_input=None)
+
 
 @app.route('/inv-monitoring')
 def drug_table():
@@ -30,6 +31,7 @@ def drug_edit(id):
         drug['name'] = request.form['name']
         drug['company'] = request.form['company']
         drug['type'] = request.form['type']
+        drug['description'] = request.form['description']
         drug['stock'] = request.form['stock']
         # send the user back to inventory monitoring page
         return redirect('/inv-monitoring')
@@ -45,6 +47,7 @@ def new_drug():
         drug['name'] = request.form['name']
         drug['company'] = request.form['company']
         drug['type'] = request.form['type']
+        drug['description'] = request.form['description']
         drug['stock'] = request.form['stock']
         drugs.append(drug)
         # send the user back to inventory monitoring page
@@ -68,6 +71,7 @@ def delete_drug(id):
 @app.route('/drug-info.html', methods=['GET'])
 def drug_info():
     return render_template('drug-info.html')
+
 
 if __name__ == '__main__':
     # app.run(debug=True)
