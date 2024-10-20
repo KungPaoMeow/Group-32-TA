@@ -30,6 +30,7 @@
     ```bash
     pip install -r requirements.txt
     ```
+
 5. Run the following command to start the server:
 
     ```bash
@@ -51,4 +52,11 @@
     To run in development env add: 
     ```bash 
     FLASK_ENV=development 
+    ```
+
+## How to run test files
+1. Make sure you are in the root directory of the project and the virtual environment is activated.
+2. To run a <testfile> in the tests/ directory, run:
+    ```bash
+    python -m unittest tests/<testfile>
     ```
