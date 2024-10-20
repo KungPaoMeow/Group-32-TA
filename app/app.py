@@ -31,10 +31,26 @@ def drug_edit(id):
         drug['company'] = request.form['company']
         drug['type'] = request.form['type']
         drug['stock'] = request.form['stock']
+        # send the user back to inventory monitoring page
         return redirect('/inv-monitoring')
     # display the drug info
     return render_template('drug-edit.html', drug=drug, ids=range(len(drugs)))
     
+@app.route('/new-drug', methods=['GET', 'POST'])
+def new_drug():
+    # initialize the new drug to add
+    drug = {"name": "", "company": "", "type": "", "stock": 0}
+    if request.method == 'POST':
+        # add the user-provided drug info to the list
+        drug['name'] = request.form['name']
+        drug['company'] = request.form['company']
+        drug['type'] = request.form['type']
+        drug['stock'] = request.form['stock']
+        drugs.append(drug)
+        # send the user back to inventory monitoring page
+        return redirect('/inv-monitoring')
+    # show form to add a drug
+    return render_template('new-drug.html')
 
 if __name__ == '__main__':
     # app.run(debug=True)
