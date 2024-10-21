@@ -11,3 +11,4 @@ John (KungPaoMeow):
 Junyi (Martin-SSS):
 - Order tracking page
 - Drug browsing page
+- Dashboard page
