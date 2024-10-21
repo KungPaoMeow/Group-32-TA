@@ -31,18 +31,21 @@
     <script>
         document.getElementById('search-box').addEventListener('input', function() {
             const filter = this.value.toLowerCase();
-            const drugItems = document.querySelectorAll('.drug');
 
-            drugItems.forEach((item) => {
-                const drugName = item.getAttribute('data-name').toLowerCase();
-                if (drugName.includes(filter)) {
-                    item.style.display = 'block';
-                } else {
-                    item.style.display = 'none';
-                }
+            fetch(`/drug-search?q=${encodeURIComponent(filter)}`, {method: 'GET'})
+            .then((response) => response.json())  // parse the Response to JSON and return result
+            .then((filteredDrugs) => {
+                const drugItems = document.querySelectorAll('.drug');
+                drugItems.forEach((item) => {
+                    const drugName = item.getAttribute('data-name').toLowerCase();
+                    if (filteredDrugs.includes(drugName)) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
             });
         });
-
     </script>
 {% endblock %}
 

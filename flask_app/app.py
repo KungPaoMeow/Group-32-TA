@@ -1,9 +1,12 @@
 from datetime import date, datetime
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, jsonify
 
 app = Flask(__name__)
 
-drugs = []
+drugs = [
+        {"name": "Drug1", "company": "C1", "type": "Prescription", "description": "<insert super long blurb>", "stock": 20},
+        {"name": "Drug2", "company": "C2", "type": "Over the Counter", "description": "<insert super long blurb>", "stock": 30},
+]
 orders = []
 
 @app.route('/', methods=['GET', 'POST'])
@@ -109,6 +112,17 @@ def delete_drug(id):
 @app.route('/drug-info', methods=['GET'])
 def drug_info():
     return render_template('drug-info.html', drugs=drugs)
+
+@app.route('/drug-search', methods=['GET'])
+def search():
+    query = request.args.get('q')
+    filtered_drugs = []
+    for drug in drugs:
+        drug_name = drug['name'].lower()
+        if query in drug_name:
+            filtered_drugs.append(drug_name)
+    # Return JSON result that can be used for dynamic updates with JS
+    return jsonify(filtered_drugs)
 
 
 
