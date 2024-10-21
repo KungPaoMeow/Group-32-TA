@@ -89,6 +89,15 @@ class TestFlaskApp(unittest.TestCase):
         self.assertEqual(response.status_code, 302) # check for redirect
         self.assertNotIn(order_old, orders)
         self.assertEqual(order_new, orders[0])
+    def test_new_drug_invalid_stock(self):
+        invalid_drug = {"name": "Invalid Drug", "company": "Invalid Co", "type": "Prescription", "stock": "invalid_stock"}
+        response = self.app.post("/new-drug", data=invalid_drug)
+        self.assertEqual(response.status_code, 400)
+    def test_new_order_invalid_date(self):
+        invalid_order = {"name": "Test Order", "date_of_purchase": "invalid_date", "pickup_or_delivery": "Delivery", "status": "Delivered"}
+        response = self.app.post("/new-order", data=invalid_order)
+        self.assertEqual(response.status_code, 400)
+
 
 
 if __name__ == "__main__":
