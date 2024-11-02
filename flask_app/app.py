@@ -1,13 +1,18 @@
 from datetime import date, datetime
 from flask import Flask, render_template, request, redirect, jsonify
+from pymongo_get_db import MongoDB
+
 
 app = Flask(__name__)
+db_service = MongoDB()
+db = db_service.db
 
 drugs = [
         {"name": "Drug1", "company": "C1", "type": "Prescription", "description": "<insert super long blurb>", "stock": 20},
         {"name": "Drug2", "company": "C2", "type": "Over the Counter", "description": "<insert super long blurb>", "stock": 30},
 ]
 orders = []
+
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -25,6 +30,18 @@ def dashboard():
     order_increase = 201
     inventory_increase = 2100
     earnings_increase = 11981
+
+    # Testing creating a collection under the DB and inserting a record
+    dashboard_data = {
+        'total_orders' : 888,
+        'drug_inventory' : 123974,
+        'earnings' : 123114,
+        'order_increase' : 201,
+        'inventory_increase' : 2100,
+        'earnings_increase' : 11981
+    }
+    test_collection = db["dashboard"]
+    test_collection.insert_one(dashboard_data)
 
     return render_template('dashboard.html', 
                            total_orders=total_orders,
