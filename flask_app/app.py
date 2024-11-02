@@ -134,13 +134,16 @@ def new_drug():
     # show form to add a drug
     return render_template('new-drug.html')
 
-@app.route('/delete-drug/<int:id>', methods=['GET','POST'])
+@app.route('/delete-drug/<id>', methods=['GET','POST'])
 def delete_drug(id):
-    drug = drugs[id]
+    drug = drug_inv_collection.find_one({"_id": ObjectId(id)})
+    if not drug:
+        return "Drug not found", 404
+    
     if request.method == 'POST':
         if request.form['delete'] == 'Yes':
             # remove drug from list if user confirms that they want to delete it
-            drugs.pop(id)
+            drug_inv_collection.delete_one({"_id": ObjectId(id)})
         # send the user back to inventory monitoring page
         return redirect('/inv-monitoring')
     
