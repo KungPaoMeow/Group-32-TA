@@ -1,9 +1,17 @@
 from datetime import date, datetime
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, jsonify
+from pymongo_get_db import MongoDB
+from bson.objectid import ObjectId
+
 
 app = Flask(__name__)
 
-drugs = []
+drug_inv_collection = db["drugs"]
+
+drugs = [
+        {"name": "Drug1", "company": "C1", "type": "Prescription", "description": "<insert super long blurb>", "stock": 20},
+        {"name": "Drug2", "company": "C2", "type": "Over the Counter", "description": "<insert super long blurb>", "stock": 30},
+]
 orders = []
 
 @app.route('/', methods=['GET', 'POST'])
@@ -37,14 +45,18 @@ def dashboard():
 @app.route('/inv-monitoring')
 def drug_table():
     # list of drugs to be displayed on inventory monitoring page
-    # hard coded for now but will be changed later
+    drugs = list(drug_inv_collection.find())
     
     return render_template('inv-monitoring.html', drugs=drugs)
 
-@app.route('/drug-edit/<int:id>', methods=['GET', 'POST'])
+@app.route('/drug-edit/<id>', methods=['GET', 'POST'])
 def drug_edit(id):
     # get the info of the selected drug
-    drug = drugs[id]
+    # drug = drugs[id]
+    drug = drug_inv_collection.find_one({"_id": ObjectId(id)})
+    if not drug:
+        return "Drug not found", 404
+    
     if request.method == 'POST':
         # update the drug info
         drug['name'] = request.form['name']
@@ -58,6 +70,18 @@ def drug_edit(id):
              drug['stock'] = int( drug['stock'])
         except ValueError:
             return "Invalid stock value", 400
+        
+        # update the drug in the db
+        drug_inv_collection.update_one(
+            {"_id": ObjectId(id)},
+            {"$set": {
+                "name": drug['name'],
+                "company": drug['company'],
+                "type": drug['type'],
+                "description": drug['description'],
+                "stock": drug['stock']
+            }}
+        )
 
         if request.args.get('from') == 'info':
             return redirect('/drug-info')
@@ -83,7 +107,9 @@ def new_drug():
              drug['stock'] = int( drug['stock'])
         except ValueError:
             return "Invalid stock value", 400
-        drugs.append(drug)
+        
+        drug_inv_collection.insert_one(drug)
+        # drugs.append(drug)
 
         if request.args.get('from') == 'info':
             return redirect('/drug-info')

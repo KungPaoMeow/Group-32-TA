@@ -24,8 +24,12 @@
                 <td>{{ drug.type }}</td>
                 <td>{{ drug.stock }}</td>
                 <script>console.log("{{ drug.description }}")</script>
-                <td class="no-border"><a href="/drug-edit/{{ drugs.index(drug) }}"><button>Edit</button></a></td>
-                <td class="no-border"><a href="/delete-drug/{{ drugs.index(drug) }}"><button>Delete</button></a></td>
+                <td class="no-border">
+                    <a href="/drug-edit/{{ drug._id }}"><button>Edit</button></a>
+                </td>
+                <td class="no-border">
+                    <a href="/delete-drug/{{ drug._id }}"><button>Delete</button></a>
+                </td>
             </tr>
         {% endfor %}
     </table>
