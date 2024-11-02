@@ -10,10 +10,10 @@ db = db_service.db
 
 drug_inv_collection = db["drugs"]
 
-drugs = [
-        {"name": "Drug1", "company": "C1", "type": "Prescription", "description": "<insert super long blurb>", "stock": 20},
-        {"name": "Drug2", "company": "C2", "type": "Over the Counter", "description": "<insert super long blurb>", "stock": 30},
-]
+# drugs = [
+#         {"name": "Drug1", "company": "C1", "type": "Prescription", "description": "<insert super long blurb>", "stock": 20},
+#         {"name": "Drug2", "company": "C2", "type": "Over the Counter", "description": "<insert super long blurb>", "stock": 30},
+# ]
 orders = []
 
 
@@ -152,10 +152,12 @@ def delete_drug(id):
 
 @app.route('/drug-info', methods=['GET'])
 def drug_info():
+    drugs = list(drug_inv_collection.find())
     return render_template('drug-info.html', drugs=drugs)
 
 @app.route('/drug-search', methods=['GET'])
 def search():
+    drugs = list(drug_inv_collection.find())
     query = request.args.get('q')
     filtered_drugs = []
     for drug in drugs:
@@ -222,6 +224,7 @@ def delete_order(id):
 
 @app.route('/browse-drug')
 def browse_drug():
+    drugs = list(drug_inv_collection.find())
     return render_template('browse-drug.html', drugs=drugs)
 
 
