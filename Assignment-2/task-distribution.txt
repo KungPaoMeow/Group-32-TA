@@ -1,0 +1,14 @@
+Ewan (2slashes):
+- Inventory monitoring page
+- Edit, delete and add new drug pages
+- Tests for editing, deleting and adding drugs and orders
+
+John (KungPaoMeow):
+- Website template
+- Drug information page
+- Test for search bar
+
+Junyi (Martin-SSS):
+- Order tracking page
+- Drug browsing page
+- Dashboard page
