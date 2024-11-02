@@ -5,6 +5,8 @@ from bson.objectid import ObjectId
 
 
 app = Flask(__name__)
+db_service = MongoDB()
+db = db_service.db
 
 drug_inv_collection = db["drugs"]
 
@@ -13,6 +15,7 @@ drugs = [
         {"name": "Drug2", "company": "C2", "type": "Over the Counter", "description": "<insert super long blurb>", "stock": 30},
 ]
 orders = []
+
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -30,6 +33,18 @@ def dashboard():
     order_increase = 201
     inventory_increase = 2100
     earnings_increase = 11981
+
+    # Testing creating a collection under the DB and inserting a record
+    dashboard_data = {
+        'total_orders' : 888,
+        'drug_inventory' : 123974,
+        'earnings' : 123114,
+        'order_increase' : 201,
+        'inventory_increase' : 2100,
+        'earnings_increase' : 11981
+    }
+    test_collection = db["dashboard"]
+    test_collection.insert_one(dashboard_data)
 
     return render_template('dashboard.html', 
                            total_orders=total_orders,
@@ -135,6 +150,17 @@ def delete_drug(id):
 @app.route('/drug-info', methods=['GET'])
 def drug_info():
     return render_template('drug-info.html', drugs=drugs)
+
+@app.route('/drug-search', methods=['GET'])
+def search():
+    query = request.args.get('q')
+    filtered_drugs = []
+    for drug in drugs:
+        drug_name = drug['name'].lower()
+        if query in drug_name:
+            filtered_drugs.append(drug_name)
+    # Return JSON result that can be used for dynamic updates with JS
+    return jsonify(filtered_drugs)
 
 
 

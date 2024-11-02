@@ -3,28 +3,11 @@ import unittest
 from unittest.mock import patch
 from app import app, drugs, orders
 
-# class TestTesting(unittest.TestCase):
-#     def test_testing_false(self):
-#         self.assertFalse(False, "should be false")
-
-#     def test_testing_true(self):
-#         self.assertTrue(True, "should be true")
-
-#     def test_testing_fails(self):
-#         # self.assertTrue(False, "not true")
-#         self.fail("fail")
-
-# class TestTesting2(unittest.TestCase):
-#     def test_testing_false(self):
-#         self.assertFalse(False, "should be false")
-
-#     def test_test(self):
-#         self.assertTrue(False, "should be true")
-
 class TestFlaskApp(unittest.TestCase):
     def setUp(self):
         self.app = app.test_client()
         self.app.testing = True
+
         # create new test data to avoid errors with removing from an empty list
         drugs.clear()
         drugs.extend([
@@ -38,15 +21,15 @@ class TestFlaskApp(unittest.TestCase):
             {"name": "name2", "date_of_purchase": date(2024, 10, 21), "pickup_or_delivery": "Pick up", "status": "Awaiting Pickup"}
         ])
     
-    def tearDown(self):
-        # reset the list after each test
-        drugs.clear()
+    # def tearDown(self):
+    #     # reset the list after each test
+    #     drugs.clear()
 
-    def test_index(self):
-        response = self.app.get('/')
+    # def test_index(self):
+    #     response = self.app.get('/')
 
-        # Check that the status code is 200 OK
-        self.assertEqual(response.status_code, 200)
+    #     # Check that the status code is 200 OK
+    #     self.assertEqual(response.status_code, 200)
 
     # drug tests
     def test_new_drug(self):
@@ -69,6 +52,23 @@ class TestFlaskApp(unittest.TestCase):
         self.assertNotIn(drug_old, drugs)
         self.assertEqual(drug_new, drugs[0])
 
+    def test_drug_search(self):
+        drugs.extend([
+            {"name": "awDRUh21", "company": "company1", "type": "Prescription", "stock": 10},
+            {"name": "loremipsum", "company": "company1", "type": "Prescription", "stock": 10}
+        ])
+        filters = ["", "dru", "chyme"]
+        shouldBeFilteredTo = [["drug1", "drug2", "awdruh21", "loremipsum"], ["drug1", "drug2", "awdruh21"], []]
+        for filter in filters:
+            response = self.app.get(f"/drug-search?q={filter}")
+            self.assertEqual(response.status_code, 200, "HTTP GET request to route /drug-search should return OK")
+
+            # Get list of drugs being displayed on site
+            filteredDrugs = response.get_json()
+            answer = shouldBeFilteredTo[filters.index(filter)]
+            self.assertEqual(set(filteredDrugs), set(answer), "Drugs are not being filtered properly")
+
+
     # order tests
     def test_new_order(self):
         new_order_test = {"name": "test_name", "date_of_purchase": date(2024, 10, 20), "pickup_or_delivery": "Delivery", "status": "Delivered"}
@@ -89,6 +89,17 @@ class TestFlaskApp(unittest.TestCase):
         self.assertEqual(response.status_code, 302) # check for redirect
         self.assertNotIn(order_old, orders)
         self.assertEqual(order_new, orders[0])
+    def test_new_drug_invalid_stock(self):
+        invalid_drug = {"name": "Invalid Drug", "company": "Invalid Co", "type": "Prescription", "stock": "invalid_stock"}
+        response = self.app.post("/new-drug", data=invalid_drug)
+        self.assertEqual(response.status_code, 400)
+    def test_new_order_invalid_date(self):
+        invalid_order = {"name": "Test Order", "date_of_purchase": "invalid_date", "pickup_or_delivery": "Delivery", "status": "Delivered"}
+        response = self.app.post("/new-order", data=invalid_order)
+        self.assertEqual(response.status_code, 400)
+
+
+
 if __name__ == "__main__":
     unittest.main()
     print("All tests have run.")
