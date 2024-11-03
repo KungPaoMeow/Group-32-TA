@@ -2,6 +2,7 @@ from datetime import date, datetime
 from flask import Flask, render_template, request, redirect, jsonify
 from pymongo_get_db import MongoDB
 from bson.objectid import ObjectId
+from datetime import datetime
 
 
 app = Flask(__name__)
@@ -9,12 +10,12 @@ db_service = MongoDB()
 db = db_service.db
 
 drug_inv_collection = db["drugs"]
-
+order_collection = db["orders"]
 # drugs = [
 #         {"name": "Drug1", "company": "C1", "type": "Prescription", "description": "<insert super long blurb>", "stock": 20},
 #         {"name": "Drug2", "company": "C2", "type": "Over the Counter", "description": "<insert super long blurb>", "stock": 30},
 # ]
-orders = []
+#orders = []
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -26,35 +27,51 @@ def index():
 
 @app.route('/dashboard')
 def dashboard():
-    total_orders = 888
-    drug_inventory = 123974
+    total_orders = order_collection.count_documents({})
+    drug_inventory = drug_inv_collection.count_documents({})
     earnings = 123114
 
-    order_increase = 201
-    inventory_increase = 2100
-    earnings_increase = 11981
 
     # Testing creating a collection under the DB and inserting a record
     dashboard_data = {
-        'total_orders' : 888,
-        'drug_inventory' : 123974,
-        'earnings' : 123114,
-        'order_increase' : 201,
-        'inventory_increase' : 2100,
-        'earnings_increase' : 11981
+        'total_orders' : total_orders,
+        'drug_inventory' : drug_inventory,
+        'earnings' : earnings
     }
     test_collection = db["dashboard"]
-    test_collection.insert_one(dashboard_data)
-
+    existing_record = test_collection.find_one({"total_orders": total_orders, "drug_inventory": drug_inventory})
+    if not existing_record:
+        test_collection.insert_one(dashboard_data)
+        print("New dashboard data inserted.")
+    else:
+        print("Dashboard data already exists, skipping insertion.")
+    orders = list(order_collection.find())
     return render_template('dashboard.html', 
                            total_orders=total_orders,
                            drug_inventory=drug_inventory,
                            earnings=earnings,
-                           order_increase=order_increase,
-                           inventory_increase=inventory_increase,
-                           earnings_increase=earnings_increase,
                            orders=orders)
 
+@app.route('/add-sample-drug')
+def add_sample_drug():
+    # Define drug data to be inserted directly in the code
+    drug_data = {
+        "name": "Sample Drug",
+        "company": "Sample Company",
+        "type": "Prescription",
+        "description": "This is a sample drug used for testing.",
+        "stock": 50
+    }
+    
+    # Check if the drug already exists to avoid duplicate insertion
+    existing_drug = drug_inv_collection.find_one({"name": drug_data["name"]})
+    
+    if existing_drug:
+        return jsonify({"msg": "Drug already exists in the database.", "id": str(existing_drug["_id"])}), 409
+    else:
+        # Insert new drug data
+        inserted_id = drug_inv_collection.insert_one(drug_data).inserted_id
+        return jsonify({"msg": "Drug added successfully", "id": str(inserted_id)}), 201
 
 
 @app.route('/inv-monitoring')
@@ -167,10 +184,24 @@ def search():
     # Return JSON result that can be used for dynamic updates with JS
     return jsonify(filtered_drugs)
 
+@app.route('/add-sample-order')
+def add_sample_order():
+    # Define a sample order with a specific date
+    sample_order = {
+        "name": "Test Order",
+        "date_of_purchase": datetime.strptime("2023-01-15", "%Y-%m-%d"),
+        "pickup_or_delivery": "pickup",
+        "status": "pending"
+    }
+    
+    # Insert the sample order into the 'orders' collection
+    order_collection.insert_one(sample_order)
+    return "Sample order added to MongoDB with specified date."
 
 
 @app.route('/order-tracking')
 def order_tracking():
+    orders = list(order_collection.find())
     return render_template('order-tracking.html', orders=orders)
 
 @app.route('/new-order', methods=['GET', 'POST'])
@@ -183,41 +214,61 @@ def new_order():
             "status": request.form['status']
         }
 
-        # convert date from string to the correct data type
+        # Convert date from string to datetime
         try:
-             new_order_data["date_of_purchase"] = datetime.strptime(new_order_data["date_of_purchase"], "%Y-%m-%d").date()
+            new_order_data["date_of_purchase"] = datetime.strptime(new_order_data["date_of_purchase"], "%Y-%m-%d").date()
         except ValueError:
             return "Invalid date value", 400
 
-        orders.append(new_order_data)
+        # Insert the new order into MongoDB
+        order_collection.insert_one(new_order_data)
         return redirect('/order-tracking')
+    
     return render_template('new-order.html')
 
 @app.route('/edit-order/<int:id>', methods=['GET', 'POST'])
 def edit_order(id):
-    order = orders[id]
-    if request.method == 'POST':
-        order['name'] = request.form['name']
-        order['date_of_purchase'] = request.form['date_of_purchase']
-        order['pickup_or_delivery'] = request.form['pickup_or_delivery']
-        order['status'] = request.form['status']
+    # Find the order by ID in MongoDB
+    order = order_collection.find_one({"_id": ObjectId(id)})
+    if not order:
+        return "Order not found", 404
 
-        # convert date from string to the correct data type
+    if request.method == 'POST':
+        # Update order information
+        updated_order = {
+            "name": request.form['name'],
+            "date_of_purchase": request.form['date_of_purchase'],
+            "pickup_or_delivery": request.form['pickup_or_delivery'],
+            "status": request.form['status']
+        }
+
+        # Convert date from string to datetime
         try:
-             order["date_of_purchase"] = datetime.strptime(order["date_of_purchase"], "%Y-%m-%d").date()
+            updated_order["date_of_purchase"] = datetime.strptime(updated_order["date_of_purchase"], "%Y-%m-%d").date()
         except ValueError:
             return "Invalid date value", 400
+
+        # Update the order in MongoDB
+        order_collection.update_one(
+            {"_id": ObjectId(id)},
+            {"$set": updated_order}
+        )
         return redirect('/order-tracking')
+    
     return render_template('edit-order.html', order=order)
 
 @app.route('/delete-order/<int:id>', methods=['GET', 'POST'])
 def delete_order(id):
-    order = orders[id]
+    order = order_collection.find_one({"_id": ObjectId(id)})
+    if not order:
+        return "Order not found", 404
+
     if request.method == 'POST':
         if request.form['delete'] == 'Yes':
-            orders.pop(id)
+            # Delete the order from MongoDB
+            order_collection.delete_one({"_id": ObjectId(id)})
         return redirect('/order-tracking')
-
+    
     return render_template('delete-order.html', order=order)
 
 

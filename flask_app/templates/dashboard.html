@@ -29,61 +29,20 @@
         font-size: 48px;
         margin: 10px 0;
     }
-
-    .card .increase {
-        color: green;
-    }
-
-    .order-table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 30px;
-    }
-
-    .order-table th, .order-table td {
-        border: 1px solid #ddd;
-        padding: 12px;
-        text-align: left;
-    }
-
-    .order-table th {
-        background-color: #f4f4f4;
-    }
-
-    .actions {
-        display: flex;
-        gap: 10px;
-    }
-
-    .actions button {
-        padding: 8px 12px;
-        background-color: #1E88E5;
-        color: white;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-    }
-
-    .actions button:hover {
-        background-color: #1761a2;
-    }
 </style>
 
 <div class="dashboard">
     <div class="card">
         <h2>Total Order #</h2>
-        <p>888</p>
-        <p class="increase">+ 201</p>
+        <p>{{ total_orders }}</p>
     </div>
     <div class="card">
         <h2>Drug Inventory</h2>
-        <p>123974</p>
-        <p class="increase">+ 2100</p>
+        <p>{{ drug_inventory }}</p>
     </div>
     <div class="card">
         <h2>Earnings</h2>
-        <p>$123114</p>
-        <p class="increase">+ $11981</p>
+        <p>${{ earnings }}</p>
     </div>
 </div>
 
@@ -106,8 +65,8 @@
             <td>{{ order.pickup_or_delivery }}</td>
             <td>{{ order.status }}</td>
             <td class="actions">
-                <a href="/edit-order/{{ orders.index(order) }}"><button>Edit</button></a>
-                <a href="/delete-order/{{ orders.index(order) }}"><button>Delete</button></a>
+                <a href="/edit-order/{{ order._id }}"><button>Edit</button></a>
+                <a href="/delete-order/{{ order._id }}"><button>Delete</button></a>
             </td>
         </tr>
         {% endfor %}
