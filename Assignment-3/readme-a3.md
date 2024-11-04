@@ -1,7 +1,7 @@
-## How to run the starter project
+## How to run the project
 
-1. Make sure you are in the root directory of the project.
-2. In the root directory, create a virtual environment by running the following command:
+1. Make sure you are in the `flask_app` directory.
+2. Create a virtual environment by running the following command:
 
     ```bash
     python3 -m venv venv
@@ -55,8 +55,8 @@
     ```
 
 ## How to run test files
-1. Make sure you are in the root directory of the project and the virtual environment is activated.
-2. To run a <testfile> in the tests/ directory, run:
+1. Make sure you are in the `flask_app` directory and the virtual environment is activated.
+2. To run a <testfile> in the `flask_app/tests/` directory, run:
     ```bash
     python -m unittest tests/<testfile>
     ```
