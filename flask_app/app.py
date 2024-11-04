@@ -11,11 +11,6 @@ db = db_service.db
 
 drug_inv_collection = db["drugs"]
 order_collection = db["orders"]
-# drugs = [
-#         {"name": "Drug1", "company": "C1", "type": "Prescription", "description": "<insert super long blurb>", "stock": 20},
-#         {"name": "Drug2", "company": "C2", "type": "Over the Counter", "description": "<insert super long blurb>", "stock": 30},
-# ]
-#orders = []
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -31,7 +26,6 @@ def dashboard():
     drug_inventory = drug_inv_collection.count_documents({})
     earnings = 123114
 
-
     # Testing creating a collection under the DB and inserting a record
     dashboard_data = {
         'total_orders' : total_orders,
@@ -46,12 +40,10 @@ def dashboard():
     else:
         print("Dashboard data already exists, skipping insertion.")
     orders = list(order_collection.find())
-    return render_template('dashboard.html', 
-                           total_orders=total_orders,
-                           drug_inventory=drug_inventory,
-                           earnings=earnings,
-                           orders=orders)
+    return render_template('dashboard.html', total_orders=total_orders, drug_inventory=drug_inventory, earnings=earnings, orders=orders)
 
+
+### Currently unused ###
 @app.route('/add-sample-drug')
 def add_sample_drug():
     # Define drug data to be inserted directly in the code
@@ -78,13 +70,16 @@ def add_sample_drug():
 def drug_table():
     # list of drugs to be displayed on inventory monitoring page
     drugs = list(drug_inv_collection.find())
-    
     return render_template('inv-monitoring.html', drugs=drugs)
+
+@app.route('/browse-drug')
+def browse_drug():
+    drugs = list(drug_inv_collection.find())
+    return render_template('browse-drug.html', drugs=drugs)
 
 @app.route('/drug-edit/<id>', methods=['GET', 'POST'])
 def drug_edit(id):
     # get the info of the selected drug
-    # drug = drugs[id]
     drug = drug_inv_collection.find_one({"_id": ObjectId(id)})
     if not drug:
         return "Drug not found", 404
@@ -120,7 +115,7 @@ def drug_edit(id):
         # send the user back to inventory monitoring page
         return redirect('/inv-monitoring')
     # display the drug info
-    return render_template('drug-edit.html', drug=drug, ids=range(len(drugs)))
+    return render_template('drug-edit.html', drug=drug)
     
 @app.route('/new-drug', methods=['GET', 'POST'])
 def new_drug():
@@ -174,16 +169,22 @@ def drug_info():
 
 @app.route('/drug-search', methods=['GET'])
 def search():
-    drugs = list(drug_inv_collection.find())
     query = request.args.get('q')
+    testing = request.args.get('test')
+    collection = list(drug_inv_collection.find())
+    if testing:
+        collection = list(db[testing].find())
+
     filtered_drugs = []
-    for drug in drugs:
+    for drug in collection:
         drug_name = drug['name'].lower()
         if query in drug_name:
             filtered_drugs.append(drug_name)
     # Return JSON result that can be used for dynamic updates with JS
     return jsonify(filtered_drugs)
 
+
+### Currently unused ###
 @app.route('/add-sample-order')
 def add_sample_order():
     # Define a sample order with a specific date
@@ -217,6 +218,7 @@ def new_order():
         # Convert date from string to datetime
         try:
             new_order_data["date_of_purchase"] = datetime.strptime(new_order_data["date_of_purchase"], "%Y-%m-%d").date()
+            new_order_data["date_of_purchase"] = str(new_order_data["date_of_purchase"])
         except ValueError:
             return "Invalid date value", 400
 
@@ -226,7 +228,7 @@ def new_order():
     
     return render_template('new-order.html')
 
-@app.route('/edit-order/<int:id>', methods=['GET', 'POST'])
+@app.route('/edit-order/<id>', methods=['GET', 'POST'])
 def edit_order(id):
     # Find the order by ID in MongoDB
     order = order_collection.find_one({"_id": ObjectId(id)})
@@ -245,6 +247,7 @@ def edit_order(id):
         # Convert date from string to datetime
         try:
             updated_order["date_of_purchase"] = datetime.strptime(updated_order["date_of_purchase"], "%Y-%m-%d").date()
+            updated_order["date_of_purchase"] = str(updated_order["date_of_purchase"])
         except ValueError:
             return "Invalid date value", 400
 
@@ -254,10 +257,10 @@ def edit_order(id):
             {"$set": updated_order}
         )
         return redirect('/order-tracking')
-    
+
     return render_template('edit-order.html', order=order)
 
-@app.route('/delete-order/<int:id>', methods=['GET', 'POST'])
+@app.route('/delete-order/<id>', methods=['GET', 'POST'])
 def delete_order(id):
     order = order_collection.find_one({"_id": ObjectId(id)})
     if not order:
@@ -270,13 +273,6 @@ def delete_order(id):
         return redirect('/order-tracking')
     
     return render_template('delete-order.html', order=order)
-
-
-
-@app.route('/browse-drug')
-def browse_drug():
-    drugs = list(drug_inv_collection.find())
-    return render_template('browse-drug.html', drugs=drugs)
 
 
 

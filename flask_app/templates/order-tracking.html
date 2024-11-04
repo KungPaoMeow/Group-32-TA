@@ -3,115 +3,117 @@
 {% block title %}Order Tracking{% endblock %}
 
 {% block content %}
-<style>
-    .content {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        margin: 40px;
-        box-sizing: border-box;
-        width: calc(100% - 80px);
-    }
-
-    .add-button {
-        padding: 10px 20px;
-        font-size: 16px;
-        background-color: #1E88E5;
-        color: white;
-        border: none;
-        cursor: pointer;
-        border-radius: 5px;
-    }
-
-    .add-button:hover {
-        background-color: #1761a2;
-    }
-
-    .header-container {
-        display: flex;
-        justify-content: space-between;
-        flex-direction: row;
-        align-items: center;
-        width: 100%;
-        padding: 0 40px;
-        box-sizing: border-box;
-        margin-bottom: 20px;
-    }
-
-    .title-container {
-        flex-grow: 1;
-        text-align: center;
-    }
-
-    table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-
-    h1 {
-        margin-bottom: 20px;
-    }
-
-    th, td {
-        border: 1px solid black;
-        border-collapse: collapse;
-        padding: 15px;
-        text-align: left;
-    }
-
-    td {
-        position: relative;
-    }
-
-    td button {
-        padding: 10px 20px;
-        font-size: 16px;
-        background-color: #1E88E5;
-        color: white;
-        border: none;
-        cursor: pointer;
-        border-radius: 5px;
-    }
-
-    td button:hover {
-        background-color: #1761a2;
-    }
-
-    td.no-border {
-        border: none;
-        width: 50px;
-    }
-
-    th.no-border {
-        border: none;
-    }
-</style>
-
-<div class="content">
-    <div class="header-container">
-        <div class="title-container">
-            <h1>Order Data</h1>
+    <div class="content">
+        <div class="header-container">
+            <div class="title-container">
+                <h1>Order Data</h1>
+            </div>
+            <a href="/new-order"><button class="add-button">New Order</button></a>
         </div>
-        <a href="/new-order"><button class="add-button">New Order</button></a>
+        <table>
+            <tr>
+                <th>Customer Name</th>
+                <th>Date of Purchase</th>
+                <th>Pick up or Delivery</th>
+                <th>Status</th>
+            </tr>
+            {% for order in orders %}
+            <tr>
+                <td>{{ order.name }}</td>
+                <td>{{ order.date_of_purchase }}</td>
+                <td>{{ order.pickup_or_delivery }}</td>
+                <td>{{ order.status }}</td>
+                <td class="no-border"><a href="/edit-order/{{ order['_id'] }}"><button>Edit</button></a></td>
+                <td class="no-border"><a href="/delete-order/{{ order['_id'] }}"><button>Delete</button></a></td>
+            </tr>
+            {% endfor %}
+        </table>
     </div>
-    <table>
-        <tr>
-            <th>Customer Name</th>
-            <th>Date of Purchase</th>
-            <th>Pick up or Delivery</th>
-            <th>Status</th>
-        </tr>
-        {% for order in orders %}
-        <tr>
-            <td>{{ order.name }}</td>
-            <td>{{ order.date_of_purchase }}</td>
-            <td>{{ order.pickup_or_delivery }}</td>
-            <td>{{ order.status }}</td>
-            <td class="no-border"><a href="/edit-order/{{ orders.index(order) }}"><button>Edit</button></a></td>
-            <td class="no-border"><a href="/delete-order/{{ orders.index(order) }}"><button>Delete</button></a></td>
-        </tr>
-        {% endfor %}
-    </table>
-</div>
+{% endblock %}
+
+{% block styles %}
+    <style>
+        .content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 40px;
+            box-sizing: border-box;
+            width: calc(100% - 80px);
+        }
+
+        .add-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #1E88E5;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .add-button:hover {
+            background-color: #1761a2;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            flex-direction: row;
+            align-items: center;
+            width: 100%;
+            padding: 0 40px;
+            box-sizing: border-box;
+            margin-bottom: 20px;
+        }
+
+        .title-container {
+            flex-grow: 1;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            padding: 15px;
+            text-align: left;
+        }
+
+        td {
+            position: relative;
+        }
+
+        td button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #1E88E5;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        td button:hover {
+            background-color: #1761a2;
+        }
+
+        td.no-border {
+            border: none;
+            width: 50px;
+        }
+
+        th.no-border {
+            border: none;
+        }
+    </style>
 {% endblock %}
