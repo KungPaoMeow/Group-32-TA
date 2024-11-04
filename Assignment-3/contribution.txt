@@ -2,7 +2,7 @@ Ewan (2slashes):
 - Replaced drug-related mock backend with the database.
 
 John (KungPaoMeow):
-
+- Setup database connection and rewrote tests to work with the database instead of mock data.
 
 Junyi (Martin-SSS):
 -Connected order part to db.
