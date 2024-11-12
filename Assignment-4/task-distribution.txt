@@ -1,6 +1,8 @@
 Ewan (2slashes):
+- Work on report
 
 John (KungPaoMeow):
+- Work on report
 
 Junyi (Martin-SSS):
 -Edit test file, increase the code coverage percentage.
