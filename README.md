@@ -60,3 +60,20 @@
     ```bash
     python -m unittest tests/<testfile>
     ```
+
+## How to run code coverage
+1. Make sure you are in the `flask_app` directory and the virtual environment is activated.
+2. To run a coverage report on a <testfile> in the `flask_app/tests/` directory, run:
+    ```bash
+    coverage run -m unittest tests/<testfile>
+    ```
+    Note: Our current test files are in the unit_tests.py file, the old_unit_tests.py file is just there for easy reference.
+3. To view the coverage report, run:
+    ```bash
+    coverage report
+    ```
+4. To view the coverage report in detail, run:
+    ```bash
+    coverage html
+    ```
+    This creates a `htmlcov` folder, open it and locate `index.html`, and open it in your browser to view the detailed report.
