@@ -13,7 +13,7 @@
 
     </header>
 
-    <section id="info-section">
+    <div id="info-section">
         {% for drug in drugs %}
             <details class="drug" data-name="{{ drug.name }}">
                 <summary>
@@ -26,7 +26,7 @@
                 <p>{{ drug.description }}</p>
             </details>
         {% endfor %}
-    </section> 
+        </div> 
     
     <script>
         document.getElementById('search-box').addEventListener('input', function() {
@@ -53,7 +53,7 @@
     <style>
         #info-section {
             margin-top: 5vh;
-            padding: 0 5vw;
+            padding: 1vh 5vw;
         }
 
         summary {
