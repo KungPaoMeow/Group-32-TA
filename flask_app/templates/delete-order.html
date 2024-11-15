@@ -3,31 +3,19 @@
 {% block title %}Delete Order{% endblock %}
 
 {% block content %}
-<style>
-    .content {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        margin: 40px;
-        box-sizing: border-box;
-        width: calc(100% - 80px);
-    }
-</style>
-<div class="content">
+
+<section>
     <h1>Delete Order</h1>
     <p>Are you sure you would like to delete the order for: {{ order.name }}?</p>
     <form method="POST">
-        <input type="submit" name="delete" value="Yes"></input>
-        <input type="submit" name="delete" value="No"></input>
+
+        <div>
+            <input type="submit" name="delete" class="add-button" value="Yes"></input>
+            <input type="submit" name="delete" class="add-button" value="No"></input>
+        </div>
     </form>
-</div>
+</section>
 {% endblock %}
 
 {% block styles %}
-    <style>
-        p {
-            color: white;
-        }
-    </style>
 {% endblock %}

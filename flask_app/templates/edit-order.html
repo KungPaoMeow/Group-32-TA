@@ -14,30 +14,38 @@
         width: calc(100% - 80px);
     }
 </style>
-<div class="content">
+<section>
     <h1>Edit Order</h1>
     <form method="POST">
+        <div class="form-line">
         <label for="name">Customer Name:</label>
-        <input type="text" id="name" name="name" value="{{ order.name }}" required><br>
+        <input type="text" class="text-entry" id="name" name="name" value="{{ order.name }}" required>
+        </div>
 
+        <div class="form-line">
         <label for="date_of_purchase">Date of Purchase:</label>
-        <input type="date" id="date_of_purchase" name="date_of_purchase" value="{{ order.date_of_purchase }}" required><br>
+        <input type="date" class="text-entry" id="date_of_purchase" name="date_of_purchase" value="{{ order.date_of_purchase }}" required>
+        </div>
 
+        <div class="form-line">
         <label for="pickup_or_delivery">Pick up or Delivery:</label>
-        <select id="pickup_or_delivery" name="pickup_or_delivery" required>
-            <option value="Pick up" {% if order.pickup_or_delivery == 'Pick up' %}selected{% endif %}>Pick up</option>
-            <option value="Delivery" {% if order.pickup_or_delivery == 'Delivery' %}selected{% endif %}>Delivery</option>
-        </select><br>
+        <select id="pickup_or_delivery" class="form-selector" name="pickup_or_delivery" required>
+            <option value="Pick up" {% if order.pickup_or_delivery=='Pick up' %}selected{% endif %}>Pick up</option>
+            <option value="Delivery" {% if order.pickup_or_delivery=='Delivery' %}selected{% endif %}>Delivery</option>
+        </select>
+        </div>
 
-        <label for="status">Status:</label>
-        <select id="status" name="status" required>
-            <option value="Picked Up" {% if order.status == 'Picked Up' %}selected{% endif %}>Picked Up</option>
-            <option value="Delivered" {% if order.status == 'Delivered' %}selected{% endif %}>Delivered</option>
-            <option value="Awaiting Pickup" {% if order.status == 'Awaiting Pickup' %}selected{% endif %}>Awaiting Pickup</option>
-            <option value="In Transit" {% if order.status == 'In Transit' %}selected{% endif %}>In Transit</option>
-        </select><br>
-
-        <input type="submit" value="Save Changes">
+        <div class="form-line">
+            <label for="status">Status:</label>
+            <select id="status" class="form-selector" name="status" required>
+                <option value="Picked Up" {% if order.status=='Picked Up' %}selected{% endif %}>Picked Up</option>
+                <option value="Delivered" {% if order.status=='Delivered' %}selected{% endif %}>Delivered</option>
+                <option value="Awaiting Pickup" {% if order.status=='Awaiting Pickup' %}selected{% endif %}>Awaiting
+                    Pickup</option>
+                <option value="In Transit" {% if order.status=='In Transit' %}selected{% endif %}>In Transit</option>
+            </select>
+        </div>
+        <input type="submit" class="add-button" value="Save Changes">
     </form>
-</div>
+</section>
 {% endblock %}

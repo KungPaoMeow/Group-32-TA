@@ -3,12 +3,12 @@
 {% block title %}Order Tracking{% endblock %}
 
 {% block content %}
-    <div class="content">
+    <section>
         <div class="header-container">
-            <div class="title-container">
-                <h1>Order Data</h1>
-            </div>
-            <a href="/new-order"><button class="add-button">New Order</button></a>
+            <hr>
+            <h1>Order Data</h1>
+            <hr>
+            <a href="/new-order"><button class="add-button">+ New Order</button></a>
         </div>
         <table>
             <tr>
@@ -16,6 +16,7 @@
                 <th>Date of Purchase</th>
                 <th>Pick up or Delivery</th>
                 <th>Status</th>
+                <th>Actions</th>
             </tr>
             {% for order in orders %}
             <tr>
@@ -23,17 +24,19 @@
                 <td>{{ order.date_of_purchase }}</td>
                 <td>{{ order.pickup_or_delivery }}</td>
                 <td>{{ order.status }}</td>
-                <td class="no-border"><a href="/edit-order/{{ order['_id'] }}"><button>Edit</button></a></td>
-                <td class="no-border"><a href="/delete-order/{{ order['_id'] }}"><button>Delete</button></a></td>
+                <td class="actions">
+                    <a href="/edit-order/{{ order['_id'] }}"><button>Edit</button></a>
+                    <a href="/delete-order/{{ order['_id'] }}"><button>Delete</button></a>
+                </td>
             </tr>
             {% endfor %}
         </table>
-    </div>
+    </section>
 {% endblock %}
 
 {% block styles %}
     <style>
-        .content {
+        /* .content {
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -114,6 +117,6 @@
 
         th.no-border {
             border: none;
-        }
+        } */
     </style>
 {% endblock %}

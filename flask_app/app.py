@@ -116,10 +116,14 @@ def drug_edit(id):
 
         if request.args.get('from') == 'info':
             return redirect('/drug-info')
+        elif request.args.get('from') == 'browse-drug':
+            return redirect('/browse-drug')
         # send the user back to inventory monitoring page
         return redirect('/inv-monitoring')
     if request.args.get('from') == 'info':
         cur_page = "drug-info"
+    elif request.args.get('from') == 'browse-drug':
+        cur_page = "browse-drug"
     else:
         cur_page = "inv-monitoring"
     
@@ -149,10 +153,14 @@ def new_drug():
 
         if request.args.get('from') == 'info':
             return redirect('/drug-info')
+        elif request.args.get('from') == 'browse-drug':
+            return redirect('/browse-drug')
         # send the user back to inventory monitoring page
         return redirect('/inv-monitoring')
     if request.args.get('from') == 'info':
         cur_page = "drug-info"
+    elif request.args.get('from') == 'browse-drug':
+        cur_page = "browse-drug"
     else:
         cur_page = "inv-monitoring"
     # show form to add a drug
@@ -172,6 +180,8 @@ def delete_drug(id):
         return redirect('/inv-monitoring')
     if request.args.get('from') == 'info':
         cur_page = "drug-info"
+    elif request.args.get('from') == 'browse-drug':
+        cur_page = "browse-drug"
     else:
         cur_page = "inv-monitoring"
     # show confirmation page

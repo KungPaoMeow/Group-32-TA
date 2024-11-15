@@ -3,7 +3,7 @@
 {% block title %}Add New Order{% endblock %}
 
 {% block content %}
-<style>
+<!-- <style>
     .content {
         display: flex;
         flex-direction: column;
@@ -51,32 +51,40 @@
         background-color: #1761a2;
     }
 
-</style>
+</style> -->
 
-<div class="content">
+<section>
     <h1>Add New Order</h1>
     <form class="form-container" action="/new-order" method="POST">
-        <label for="name">Customer Name</label>
-        <input type="text" id="name" name="name" required>
+        <div class="form-line">
+            <label for="name">Customer Name</label>
+            <input type="text" class="text-entry" id="name" name="name" required>
+        </div>
 
-        <label for="date_of_purchase">Date of Purchase</label>
-        <input type="date" id="date_of_purchase" name="date_of_purchase" required>
+        <div class="form-line">
+            <label for="date_of_purchase">Date of Purchase</label>
+            <input type="date" class="text-entry" id="date_of_purchase" name="date_of_purchase" required>
+        </div>
 
-        <label for="pickup_or_delivery">Pick up or Delivery</label>
-        <select id="pickup_or_delivery" name="pickup_or_delivery" required>
-            <option value="Pick up">Pick up</option>
-            <option value="Delivery">Delivery</option>
-        </select>
+        <div class="form-line">
+            <label for="pickup_or_delivery">Pick up or Delivery</label>
+            <select id="pickup_or_delivery" name="pickup_or_delivery" class="form-selector" required>
+                <option value="Pick up">Pick up</option>
+                <option value="Delivery">Delivery</option>
+            </select>
+        </div>
 
-        <label for="status">Order Status</label>
-        <select id="status" name="status" required>
-            <option value="Picked Up">Picked Up</option>
-            <option value="Delivered">Delivered</option>
-            <option value="Awaiting Pickup">Awaiting Pickup</option>
-            <option value="In Transit">In Transit</option>
-        </select>
+        <div class="form-line">
+            <label for="status">Order Status</label>
+            <select id="status" name="status" class="form-selector" required>
+                <option value="Picked Up">Picked Up</option>
+                <option value="Delivered">Delivered</option>
+                <option value="Awaiting Pickup">Awaiting Pickup</option>
+                <option value="In Transit">In Transit</option>
+            </select>
+        </div>
 
-        <button type="submit">Add Order</button>
+        <button type="submit" class="add-button">Add Order</button>
     </form>
-</div>
+</section>
 {% endblock %}

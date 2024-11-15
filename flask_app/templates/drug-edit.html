@@ -14,36 +14,47 @@
         width: calc(100% - 80px);
     }
 </style>
-<div class="content">
+<section>
     <h1>Edit Drug Information</h1>
     <form method="POST">
-        <label for="name">Product Name:</label>
-        <input type="text" id="name" name="name" value="{{ drug.name }}"><br>
+        <div class="form-line">
+            <label for="name">Product Name:</label>
+            <input type="text" class="text-entry" id="name" name="name" value="{{ drug.name }}">
+        </div>
 
-        <label for="company">Company:</label>
-        <input type="text" id="company" name="company" value="{{ drug.company }}"><br>
+        <div class="form-line">
+            <label for="company">Company:</label>
+            <input type="text" class="text-entry" id="company" name="company" value="{{ drug.company }}">
+        </div>
 
-        <label for="type">Type:</label>
-        <select id="type" name="type">
-            <option value="Prescription" {% if drug.type == 'Prescription' %}selected{% endif %}>Prescription</option>
-            <option value="Over the Counter" {% if drug.type == 'Over the Counter' %}selected{% endif %}>Over the Counter</option>
-        </select><br>
+        <div class="form-line">
+            <label for="type">Type:</label>
+            <select id="type" class="form-selector" name="type">
+                <option value="Prescription" {% if drug.type=='Prescription' %}selected{% endif %}>Prescription</option>
+                <option value="Over the Counter" {% if drug.type=='Over the Counter' %}selected{% endif %}>Over the
+                    Counter</option>
+            </select>
+        </div>
 
-        <label for="description">Description:</label>
-        <textarea name="description" id="">{{ drug.description }}</textarea>
+        <div class="form-line">
+            <label for="description">Description:</label>
+            <textarea name="description" class="description" id="">{{ drug.description }}</textarea>
+        </div>
 
-        <label for="stock">Stock:</label>
-        <input type="number" id="stock" name="stock" value="{{ drug.stock }}"><br>
+        <div class="form-line">
+            <label for="stock">Stock:</label>
+            <input type="number" class="stock" id="stock" name="stock" value="{{ drug.stock }}">
+        </div>
 
-        <input type="submit" value="Update">
+        <input type="submit" class="add-button" value="Update">
     </form>
-</div>
+</section>
 {% endblock %}
 
 {% block styles %}
-    <style>
-        p {
-            color: white;
-        }
-    </style>
+<style>
+    p {
+        color: white;
+    }
+</style>
 {% endblock %}
