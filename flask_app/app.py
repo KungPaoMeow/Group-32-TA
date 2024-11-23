@@ -80,7 +80,14 @@ def browse_drug():
 @app.route('/drug-edit/<id>', methods=['GET', 'POST'])
 def drug_edit(id):
     # get the info of the selected drug
-    drug = drug_inv_collection.find_one({"_id": ObjectId(id)})
+    print(f"Received ID: {id} (type: {type(id)})")  # Debugging received ID
+    try:
+        drug = drug_inv_collection.find_one({"_id": ObjectId(id)})
+        print(f"Drug found: {drug}")  # Debugging database query result
+    except Exception as e:
+        print(f"Error during database query: {e}")
+        return "Drug not found", 404
+    
     if not drug:
         return "Drug not found", 404
     
