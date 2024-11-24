@@ -138,15 +138,15 @@ class TestFlaskApp(unittest.TestCase):
         response = self.app.post(f'/delete-drug/{fake_id}', data={"delete": "Yes"})
         self.assertEqual(response.status_code, 404)
 
-    # Test POST request for the index page
-    def test_index_post(self):
+    # Test POST request for the index page (index page was removed, but can still test that POST requests fail on dashboard)
+    def test_index_post_should_fail(self):
         response = self.app.post('/', data={'user_input': 'test input'})
         self.assertEqual(response.status_code, 200)
         self.assertIn(b'You entered: test input', response.data)
 
     # Test the dashboard page
     def test_dashboard(self):
-        response = self.app.get('/dashboard')
+        response = self.app.get('/')
         self.assertEqual(response.status_code, 200)
         self.assertIn(b'Dashboard', response.data)
 

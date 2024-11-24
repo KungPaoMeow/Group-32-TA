@@ -5,9 +5,28 @@ import os
 sys.path.append(os.path.expanduser("~/desktop/flask_app"))
 
 from app import app, db_service
+from pymongo_get_db import MongoDB
 from bson.objectid import ObjectId
 
 class IntegrationTest(unittest.TestCase):
+    def test_db_connection(self):
+        # Create new DB connection
+        try:
+            test_db_service = MongoDB()
+        except:
+            # Something went really wrong
+            self.assertTrue(False, "Something went really wrong when creating DB connection.")
+            return
+        
+        if test_db_service.client == None:
+            self.assertTrue(False, "DB connection was unsuccessful.")
+            return
+        
+        # Everything went well
+        test_db_service.client.close()
+        self.assertTrue(True)
+
+        
     @classmethod
     def setUpClass(cls):
         """Run before all tests to insert test data"""
@@ -26,6 +45,7 @@ class IntegrationTest(unittest.TestCase):
         """Run after all tests to clean up test data"""
         db_service.db["drugs"].delete_many({"name": {"$regex": "Test Drug"}})
         db_service.db["orders"].delete_many({"name": "Test Order"})
+
 
     def test_add_drug(self):
         """Test the functionality of adding a drug"""
@@ -64,6 +84,7 @@ class IntegrationTest(unittest.TestCase):
 
         # Clean up after test
         db_service.db["orders"].delete_one({"_id": added_order["_id"]})    
+
     def test_dashboard(self):
         """Test the dashboard data functionality"""
         response = self.app.get('/')
@@ -78,6 +99,7 @@ class IntegrationTest(unittest.TestCase):
         self.assertEqual(response.status_code, 302)  # Confirm redirection is successful
         deleted_drug = db_service.db["drugs"].find_one({"_id": self.test_drug_id})
         self.assertIsNone(deleted_drug)
+
     def test_delete_order(self):
         """Test the functionality of deleting an order"""
         # Step 1: Insert a test order
@@ -228,6 +250,7 @@ class IntegrationTest(unittest.TestCase):
 
         # remove the sample drug from the db to avoid filling up the db with vacuous data
         db_service.db["orders"].delete_one({"_id": inserted_order_id})
+
 
 if __name__ == '__main__':
     unittest.main()
