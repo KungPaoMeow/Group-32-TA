@@ -102,6 +102,69 @@ class IntegrationTest(unittest.TestCase):
         # Step 4: Clean up in case of unexpected issues
         if deleted_order:
             db_service.db["orders"].delete_one({"_id": inserted_order_id})
+    
+    def test_edit_drug(self):
+        sample_drug = {
+            "name": "Old Drug",
+            "company": "Old Company",
+            "type": "Prescription",
+            "description": "Old description",
+            "stock": 20
+        }
+
+        inserted_drug_id = db_service.db["drugs"].insert_one(sample_drug).inserted_id
+        
+        updated_drug = {
+            "name": "New Drug",
+            "company": "New Company",
+            "type": "Over-the-counter",
+            "description": "New description",
+            "stock": 19
+        }
+
+        response = self.app.post(f'/drug-edit/{inserted_drug_id}', data=updated_drug, follow_redirects = True)
+
+        self.assertEqual(response.status_code, 200)
+
+        updated_drug = db_service.db["drugs"].find_one({"_id": inserted_drug_id})
+
+        self.assertEqual(updated_drug["name"], "New Drug")
+        self.assertEqual(updated_drug["company"], "New Company")
+        self.assertEqual(updated_drug["type"], "Over-the-counter")
+        self.assertEqual(updated_drug["description"], "New description")
+        self.assertEqual(updated_drug["stock"], 19)
+
+        db_service.db["drugs"].delete_one({"_id": inserted_drug_id})
+
+    def test_edit_order(self):
+        sample_order = {
+            "name": "Old Customer",
+            "date_of_purchase": "2024-11-25",
+            "pickup_or_delivery": "delivery",
+            "status": "pending"
+        }
+
+        inserted_order_id = db_service.db["orders"].insert_one(sample_order).inserted_id
+        
+        updated_order = {
+            "name": "New Customer",
+            "date_of_purchase": "2024-11-26",
+            "pickup_or_delivery": "pickup",
+            "status": "picked up"
+        }
+
+        response = self.app.post(f'/edit-order/{inserted_order_id}', data=updated_order, follow_redirects = True)
+
+        self.assertEqual(response.status_code, 200)
+
+        updated_order = db_service.db["orders"].find_one({"_id": inserted_order_id})
+
+        self.assertEqual(updated_order["name"], "New Customer")
+        self.assertEqual(updated_order["date_of_purchase"], "2024-11-26")
+        self.assertEqual(updated_order["pickup_or_delivery"], "pickup")
+        self.assertEqual(updated_order["status"], "picked up")
+
+        db_service.db["orders"].delete_one({"_id": inserted_order_id})
 
 if __name__ == '__main__':
     unittest.main()
