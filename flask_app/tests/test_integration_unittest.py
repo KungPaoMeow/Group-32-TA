@@ -66,7 +66,7 @@ class IntegrationTest(unittest.TestCase):
         db_service.db["orders"].delete_one({"_id": added_order["_id"]})    
     def test_dashboard(self):
         """Test the dashboard data functionality"""
-        response = self.app.get('/dashboard')
+        response = self.app.get('/')
         self.assertEqual(response.status_code, 200)
         data = response.data.decode('utf-8')
         # Adjust to check key elements on the dashboard
