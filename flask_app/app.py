@@ -12,15 +12,16 @@ db = db_service.db
 drug_inv_collection = db["drugs"]
 order_collection = db["orders"]
 
+cur_page = "dashboard"
 
-@app.route('/', methods=['GET', 'POST'])
-def index():
-    if request.method == 'POST':
-        user_input = request.form['user_input']
-        return render_template('index.html', user_input=user_input)
-    return render_template('dashboard.html', user_input=None)
+# @app.route('/', methods=['GET', 'POST'])
+# def index():
+#     if request.method == 'POST':
+#         user_input = request.form['user_input']
+#         return render_template('index.html', user_input=user_input)
+#     return render_template('dashboard.html', user_input=None)
 
-@app.route('/dashboard')
+@app.route('/')
 def dashboard():
     total_orders = order_collection.count_documents({})
     drug_inventory = drug_inv_collection.count_documents({})
@@ -40,7 +41,8 @@ def dashboard():
     else:
         print("Dashboard data already exists, skipping insertion.")
     orders = list(order_collection.find())
-    return render_template('dashboard.html', total_orders=total_orders, drug_inventory=drug_inventory, earnings=earnings, orders=orders)
+    cur_page = "dashboard"
+    return render_template('dashboard.html', total_orders=total_orders, drug_inventory=drug_inventory, earnings=earnings, orders=orders, cur_page = cur_page)
 
 
 ### Currently unused ###
@@ -70,12 +72,14 @@ def add_sample_drug():
 def drug_table():
     # list of drugs to be displayed on inventory monitoring page
     drugs = list(drug_inv_collection.find())
-    return render_template('inv-monitoring.html', drugs=drugs)
+    cur_page = "inv-monitoring"
+    return render_template('inv-monitoring.html', drugs=drugs, cur_page = cur_page)
 
 @app.route('/browse-drug')
 def browse_drug():
     drugs = list(drug_inv_collection.find())
-    return render_template('browse-drug.html', drugs=drugs)
+    cur_page = "browse-drug"
+    return render_template('browse-drug.html', drugs=drugs, cur_page = cur_page)
 
 @app.route('/drug-edit/<id>', methods=['GET', 'POST'])
 def drug_edit(id):
@@ -119,10 +123,19 @@ def drug_edit(id):
 
         if request.args.get('from') == 'info':
             return redirect('/drug-info')
+        elif request.args.get('from') == 'browse-drug':
+            return redirect('/browse-drug')
         # send the user back to inventory monitoring page
         return redirect('/inv-monitoring')
+    if request.args.get('from') == 'info':
+        cur_page = "drug-info"
+    elif request.args.get('from') == 'browse-drug':
+        cur_page = "browse-drug"
+    else:
+        cur_page = "inv-monitoring"
+    
     # display the drug info
-    return render_template('drug-edit.html', drug=drug)
+    return render_template('drug-edit.html', drug=drug, cur_page = cur_page)
     
 @app.route('/new-drug', methods=['GET', 'POST'])
 def new_drug():
@@ -147,11 +160,18 @@ def new_drug():
 
         if request.args.get('from') == 'info':
             return redirect('/drug-info')
+        elif request.args.get('from') == 'browse-drug':
+            return redirect('/browse-drug')
         # send the user back to inventory monitoring page
         return redirect('/inv-monitoring')
-    
+    if request.args.get('from') == 'info':
+        cur_page = "drug-info"
+    elif request.args.get('from') == 'browse-drug':
+        cur_page = "browse-drug"
+    else:
+        cur_page = "inv-monitoring"
     # show form to add a drug
-    return render_template('new-drug.html')
+    return render_template('new-drug.html', cur_page = cur_page)
 
 @app.route('/delete-drug/<id>', methods=['GET','POST'])
 def delete_drug(id):
@@ -165,14 +185,20 @@ def delete_drug(id):
             drug_inv_collection.delete_one({"_id": ObjectId(id)})
         # send the user back to inventory monitoring page
         return redirect('/inv-monitoring')
-    
+    if request.args.get('from') == 'info':
+        cur_page = "drug-info"
+    elif request.args.get('from') == 'browse-drug':
+        cur_page = "browse-drug"
+    else:
+        cur_page = "inv-monitoring"
     # show confirmation page
-    return render_template('delete-drug.html', drug=drug)
+    return render_template('delete-drug.html', drug=drug, cur_page = cur_page)
 
 @app.route('/drug-info', methods=['GET'])
 def drug_info():
+    cur_page = "drug-info"
     drugs = list(drug_inv_collection.find())
-    return render_template('drug-info.html', drugs=drugs)
+    return render_template('drug-info.html', drugs=drugs, cur_page = cur_page)
 
 @app.route('/drug-search', methods=['GET'])
 def search():
@@ -209,8 +235,9 @@ def add_sample_order():
 
 @app.route('/order-tracking')
 def order_tracking():
+    cur_page = "order-tracking"
     orders = list(order_collection.find())
-    return render_template('order-tracking.html', orders=orders)
+    return render_template('order-tracking.html', orders=orders, cur_page = cur_page)
 
 @app.route('/new-order', methods=['GET', 'POST'])
 def new_order():
@@ -232,8 +259,8 @@ def new_order():
         # Insert the new order into MongoDB
         order_collection.insert_one(new_order_data)
         return redirect('/order-tracking')
-    
-    return render_template('new-order.html')
+    cur_page = "order-tracking"
+    return render_template('new-order.html', cur_page = cur_page)
 
 @app.route('/edit-order/<id>', methods=['GET', 'POST'])
 def edit_order(id):
@@ -264,8 +291,10 @@ def edit_order(id):
             {"$set": updated_order}
         )
         return redirect('/order-tracking')
+    
+    cur_page = "order-tracking"
 
-    return render_template('edit-order.html', order=order)
+    return render_template('edit-order.html', order=order, cur_page = cur_page)
 
 @app.route('/delete-order/<id>', methods=['GET', 'POST'])
 def delete_order(id):
@@ -278,8 +307,8 @@ def delete_order(id):
             # Delete the order from MongoDB
             order_collection.delete_one({"_id": ObjectId(id)})
         return redirect('/order-tracking')
-    
-    return render_template('delete-order.html', order=order)
+    cur_page = "order-tracking"
+    return render_template('delete-order.html', order=order, cur_page = cur_page)
 
 
 

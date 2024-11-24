@@ -4,29 +4,33 @@
 
 <!-- Inside of <main> -->
 {% block content %}
-    <header>
+<section>
+    <div class="header-container">
+        <hr>
         <h1>Drug Information</h1>
-        <div id="management-row">
-            <input type="text" name="" id="search-box" placeholder="Search drug by name here">
-            <a href="/new-drug?from=info"><button>+ New Drug</button></a>
-        </div>
+        <hr>
+        
 
-    </header>
+    </div>
+    <div id="management-row">
+        <input type="text" name="" class="text-entry" id="search-box" placeholder="Search drug by name here">
+        <a href="/new-drug?from=info"><button class="add-button">+ New Drug</button></a>
+    </div>
 
-    <section id="info-section">
+    <div id="info-section">
         {% for drug in drugs %}
             <details class="drug" data-name="{{ drug.name }}">
                 <summary>
                     {{ drug.name }}
                     <div>
-                        <a href="/drug-edit/{{ drug._id }}?from=info"><button>Edit</button></a>
+                        <a href="/drug-edit/{{ drug._id }}?from=info"><button class="add-button">Edit</button></a>
                         <span class="triangle"></span>
                     </div>
                 </summary>
                 <p>{{ drug.description }}</p>
             </details>
         {% endfor %}
-    </section> 
+        </div> 
     
     <script>
         document.getElementById('search-box').addEventListener('input', function() {
@@ -47,13 +51,14 @@
             });
         });
     </script>
+</section>
 {% endblock %}
 
 {% block styles %}
     <style>
         #info-section {
             margin-top: 5vh;
-            padding: 0 5vw;
+            padding: 1vh 5vw;
         }
 
         summary {
@@ -61,28 +66,6 @@
             justify-content: space-between;
             list-style: none;
             cursor: pointer;
-        }
-
-        /* Custom triangle icon - span is 0 width and height by default */
-        .triangle {
-            display: inline-block;
-            margin-top: 10px;
-            border-left: 9px solid transparent;
-            border-right: 9px solid transparent;
-            border-top: 9px solid #000;
-        }
-
-
-        details {
-            margin-bottom: 2vh;
-            padding: 1vh 1vw;
-            border: 1px solid #ccc;
-            border-radius: 15px;
-            background-color: #D9D9D9;
-        }
-
-        details[open] {
-            background-color: #F9F9F9;
         }
 
         /* Rotate when open */

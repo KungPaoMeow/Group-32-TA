@@ -1,12 +1,42 @@
 <nav>
-    <h3>Management System</h3>
-    <a href="/dashboard">Dashboard</a>
-    <a href="/browse-drug">Browse Drugs</a>
-    <a href="/order-tracking">Order Tracking</a>
-    <a href="/inv-monitoring">Monitor Inventory</a>
-    <a href="/drug-info">Drug Information</a>
-    <div>
+    <header>
+        <a href="/">
+            <svg width="44" height="42" viewBox="0 0 44 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M42 21H34L28 39.75L16 2.25L10 21H2" stroke="#4E3E58" stroke-width="4" stroke-linecap="round"
+                    stroke-linejoin="round" />
+        </a>
+        </svg>
+        <h3>Management System</h3>
+    </header>
+
+    <ul class="links">
+        <li class="{% if cur_page == 'dashboard' %}selected{% endif %}">
+            <a href="/">Dashboard</a>
+        </li>
+        <li class="{% if cur_page == 'browse-drug' %}selected{% endif %}">
+            <a href="/browse-drug" onClick="addSelectedClass('browse')">Browse Drugs</a>
+        </li>
+        <li class="{% if cur_page == 'order-tracking' %}selected{% endif %}">
+            <a href="/order-tracking" onClick="addSelectedClass('order')">Order Tracking</a>
+        </li>
+        <li class="{% if cur_page == 'inv-monitoring' %}selected{% endif %}">
+            <a href="/inv-monitoring" onClick="addSelectedClass('inv')">Monitor Inventory</a>
+        </li>
+        <li class="{% if cur_page == 'drug-info' %}selected{% endif %}">
+            <a href="/drug-info" onClick="addSelectedClass('drug')">Drug Information</a>
+        </li>
+    </ul>
+
+    <div class="bottom-buttons">
         <button>Login</button>
         <button>Sign Up</button>
     </div>
+
+    <script>
+        // script to add the selected class to the correct sidebar element
+        function addSelectedClass(elem) {
+            const e = document.getElementById(elem);
+            e.classList.add("selected")
+        }
+    </script>
 </nav>
