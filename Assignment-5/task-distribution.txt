@@ -1,1 +1,8 @@
+Ewan (2slashes):
+-
 
+John (KungPaoMeow):
+- 
+
+Junyi (Martin-SSS):
+- Work on unittest, do 4 tests.
