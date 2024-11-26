@@ -1,8 +1,8 @@
 Ewan (2slashes):
--
+- Edit order and edit drug integration tests and their intentions.
 
 John (KungPaoMeow):
-- 
+- Database connection integration test and it's intention. 
 
 Junyi (Martin-SSS):
 - Work on unittest, do 4 tests.
