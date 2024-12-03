@@ -3,3 +3,5 @@ Werkzeug==2.2.2
 pymongo[srv]
 # python-dotenv
 coverage
+selenium
+webdriver_manager

@@ -1,5 +1,4 @@
 ## How to run the project
-
 1. Make sure you are in the `flask_app` directory.
 2. Create a virtual environment by running the following command:
 
@@ -61,6 +60,7 @@
     ```bash
     python -m unittest tests/<testfile>
     ```
+    
 # End to end (selenium) tests
 1. Make sure the app is currently running (follow instructions to run the project if it is not)
 2. Run the `flask_app/tests/e2e_tests.py` file
