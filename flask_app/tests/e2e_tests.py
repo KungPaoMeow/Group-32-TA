@@ -43,7 +43,7 @@ def test_add_new_drug():
             driver.find_element(By.CSS_SELECTOR, 'input[value="Yes"]').click()
             print("Test drug sucessfully deleted in cleanup.")
         except Exception as e:
-            print("Failed to delete test drug in cleanup: ", e)
+            print("Failed to delete test drug in cleanup. ")
 
     except Exception as e:
         print("Test Failed in test_add_new_drug: ", e)
@@ -104,7 +104,7 @@ def test_add_new_order():
             driver.find_element(By.CSS_SELECTOR, 'input[value="Yes"]').click()
             print("Test order sucessfully deleted in cleanup.")
         except Exception as e:
-            print("Failed to delete test order in cleanup: ", e)
+            print("Failed to delete test order in cleanup. ",)
 
     except Exception as e:
         print("Test Failed in test_add_new_order: ", e)
