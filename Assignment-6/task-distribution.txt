@@ -1,4 +1,5 @@
 Ewan (2slashes):
+- add test for dashboard, inventory monitoring, browse drug and drug info pages.
 
 John (KungPaoMeow):
 - add new order test, and make sure add type tests don't clutter the db with test data
