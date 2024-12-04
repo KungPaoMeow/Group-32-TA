@@ -1,7 +1,7 @@
 Ewan (2slashes):
 
 John (KungPaoMeow):
-
+- add new order test, and make sure add type tests don't clutter the db with test data
 
 Junyi (Martin-SSS):
 - do add new drug test and order tracking test
