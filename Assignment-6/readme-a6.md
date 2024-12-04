@@ -62,8 +62,9 @@
     ```
     
 # End to end (selenium) tests
-1. Make sure the app is currently running (follow instructions to run the project if it is not)
-2. Run the `flask_app/tests/e2e_tests.py` file
+1. Make sure you have Google Chrome
+2. Make sure the app is currently running (follow instructions to run the project if it is not)
+3. Run the `flask_app/tests/e2e_tests.py` file
 
 ## How to run code coverage
 1. Make sure you are in the `flask_app` directory and the virtual environment is activated.
