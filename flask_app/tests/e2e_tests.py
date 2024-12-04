@@ -111,6 +111,70 @@ def test_add_new_order():
     finally:
         driver.quit()
 
+    def test_inv_monitoring():
+        """Test case for verifying the inventory monitoring page."""
+        driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+        try:
+            # Navigate to the inventory monitoring page
+            driver.get("http://127.0.0.1:5001/inv-monitoring")
+            print("Navigated to the inventory monitoring page.")
+
+            # Verify the page loads and contains a table
+            WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.TAG_NAME, "table")))
+            print("Test Passed: Inventory Monitoring page loaded successfully.")
+        except Exception as e:
+            print("Test Failed in test_inv-monitoring: ", e)
+        finally:
+            driver.quit()
+
+    def test_browse_drug():
+        """Test case for verifying the browse drugs page."""
+        driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+        try:
+            # Navigate to the browse drugs page
+            driver.get("http://127.0.0.1:5001/browse-drug")
+            print("Navigated to the browse drugs page.")
+
+            # Verify the page loads and contains a table
+            WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.TAG_NAME, "table")))
+            print("Test Passed: Browse Drugs page loaded successfully.")
+        except Exception as e:
+            print("Test Failed in test_browse_drug: ", e)
+        finally:
+            driver.quit()
+
+    def test_drug_info():
+        """Test case for verifying the drug info page."""
+        driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+        try:
+            # Navigate to the drug info page
+            driver.get("http://127.0.0.1:5001/drug-info")
+            print("Navigated to the drug info page.")
+
+            # Verify the page loads and contains a table
+            WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.TAG_NAME, "table")))
+            print("Test Passed: Drug info page loaded successfully.")
+        except Exception as e:
+            print("Test Failed in test_drug_info: ", e)
+        finally:
+            driver.quit()
+    
+    def test_dashboard():
+        """Test case for verifying the dashboard page."""
+        driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+        try:
+            # Navigate to the dashboard page
+            driver.get("http://127.0.0.1:5001/")
+            print("Navigated to the dashboard page.")
+
+            # Verify the page loads and contains a table
+            WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.TAG_NAME, "table")))
+            print("Test Passed: Dashboard page loaded successfully.")
+        except Exception as e:
+            print("Test Failed in test_dashboard: ", e)
+        finally:
+            driver.quit()
+
 if __name__ == "__main__":
     # Run the test cases
     print("Running test for adding a new drug...")
