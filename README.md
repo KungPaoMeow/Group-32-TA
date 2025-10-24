@@ -1,3 +1,6 @@
+# Pharmacy Management System
+Course project for [CISC 327 - Software Quality Assurance](https://www.cs.queensu.ca/undergraduate/courses/CISC-327) at Queen's University with a focus on testing methods.
+
 ## How to run the project
 
 1. Make sure you are in the `flask_app` directory.

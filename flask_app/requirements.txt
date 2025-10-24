@@ -1,7 +1,7 @@
 Flask==2.2.5
 Werkzeug==2.2.2
 pymongo[srv]
-# python-dotenv
+python-dotenv
 coverage
 selenium
 webdriver_manager
